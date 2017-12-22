@@ -1,0 +1,20 @@
+ <!DOCTYPE html>
+<html>
+	<body>
+		<div id="test"></div>
+		
+		<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+		
+		<script>
+			$(function() {
+				var worldStateURL = "http://content.warframe.com/dynamic/worldState.php";
+				var solNodeURL = "https://deathsnacks.com/wf/api/nodes.php";
+			
+				$.getJSON('http://anyorigin.com/get?url="' + worldStateURL + '"&callback=?', function(data) {
+					$('#test').html(data.contents);
+				});
+			});
+		</script>
+		
+	</body>
+</html> 
