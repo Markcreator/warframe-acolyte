@@ -1,15 +1,46 @@
  <!DOCTYPE html>
 <html>
 	<head>
-		<title>Acolyte tracker</title>
-		
+		<title>Acolyte Tracker</title>
+		<link rel="shortcut icon" type="image/png" href="img/favicon.png"/>
+
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+		<style>    
+			nav ul li a {
+				color: black;
+			}    
+		</style>
 	</head>
 	
-	<body>
-		<div class="container" style="margin-top: 5em;">
+	<body class="grey lighten-2">
+		<div class="navbar-fixed">
+			<nav>
+				<div class="nav-wrapper white">
+					<a class="brand-logo center black-text">AcolyteTracker</a>
+					<ul id="nav-mobile" class="right hide-on-med-and-down">
+						<li><a target='_blank' href="https://github.com/Markcreator/warframe-acolyte">GitHub</a></li>
+					</ul>
+				</div>
+			</nav>
+		</div>
+		
+		<div class="container">
+			
 			<div class="card hoverable">
-				<div id="test" class="card-content flow-text">
+				<div class="card-content">
+					<p>
+						Want to keep track of the Acolytes? Sick of sitting in front of your PC, constantly updating the dodgy Warframe navigation menu to stay up to date?
+						<br/><br/>
+						Acolyte Tracker will automatically fetch the latest in Acolyte developments straight to your browser, on any device!
+					</p>
+				</div>
+			</div>
+			
+			<div id="acolytes">
+			</div>
+			
+			<div id="loader" class="card hoverable">
+				<div class="card-content">
 					<div class="progress grey">
 						<div class="indeterminate black"></div>
 					</div>
@@ -19,62 +50,7 @@
 		
 		<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
-		  
-		<script>
-			$(function() {
-				var worldStateURL = "http://content.warframe.com/dynamic/worldState.php";
-				var solNodeURL = "http://raw.githubusercontent.com/WFCD/warframe-worldstate-data/master/data/solNodes.json";
-				
-				var nodes;
-				var worldState;
-				
-				var acolyteNames = {
-					"StrikerAcolyte": "Angst",
-					"HeavyAcolyte": "Malice",
-					"RogueAcolyte": "Mania",
-					"AreaCasterAcolyte": "Misery",
-					"ControlAcolyte": "Torment",
-					"DuellistAcolyte": "Violence"
-				};
-				
-				function getJSON(url, callback) {
-					$.getJSON('http://www.whateverorigin.org/get?url=' + encodeURIComponent(url) + '&callback=?', function(data) {
-						callback(JSON.parse(data.contents));
-					});
-				}
-				
-				getJSON(solNodeURL, function(nodeJSON) {
-					nodes = nodeJSON;
-
-					acolyteUpdate(1000 * 60);
-				});
-				
-				function acolyteUpdate(timeout) {
-					getJSON(worldStateURL, function(worldStateJSON) {
-						worldState = worldStateJSON;
-						
-						var output = [];
-						
-						var acolyteList = worldState.PersistentEnemies;
-						for(var i = 0; i < acolyteList.length; i++) {
-							var aco = acolyteList[i];
-							
-							var name = acolyteNames[aco.Icon.split("/")[aco.Icon.split("/").length-1].split(".png")[0]];
-							var disc = aco.Discovered;
-							
-							output.push(name);
-							output.push("Location: " + (disc ? nodes[aco.LastDiscoveredLocation].value : "Undiscovered"));
-							
-							output.push("");
-						}
-						
-						$("#test").html(output.join("<br/>"));
-					});
-					
-					setTimeout(function() { acolyteUpdate(timeout); }, timeout);
-				}
-			});
-		</script>
+		<script src="js/app.js"></script>
 		
 	</body>
 </html> 
