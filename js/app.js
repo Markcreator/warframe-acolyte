@@ -1,5 +1,15 @@
 $(function() {
-	var worldStateURL = "http://content.warframe.com/dynamic/worldState.php";
+	var url_string = window.location.href;
+	var url = new URL(url_string);
+	var platform = url.searchParams.get("platform") || "pc";
+	$("#" + platform).addClass("black-text");
+	
+	var worldStateURLs = {
+		"pc": "http://content.warframe.com/dynamic/worldState.php",
+		"ps4": "http://content.ps4.warframe.com/dynamic/worldState.php",
+		"xbox": "http://content.xb1.warframe.com/dynamic/worldState.php"
+	};
+	var worldStateURL = worldStateURLs[platform];
 	var solNodeURL = "http://raw.githubusercontent.com/WFCD/warframe-worldstate-data/master/data/solNodes.json";
 	
 	var nodes;
@@ -78,7 +88,7 @@ $(function() {
 				output.push('		<div class="card-content flow-text">');
 				output.push("			" + name.toUpperCase() + "	<a class='right' target='_blank' href='http://warframe.wikia.com/wiki/" + name + "'>Wiki page</a>");
 				output.push('			<div class="progress grey"> <div class="determinate red" style="width: ' + (health * 100) + '%"></div> </div>');
-				output.push("			<span class='red-text'>Health: " + (health * 100).toFixed(1) + "%</span>");
+				output.push("			<span class='red-text'>Health: " + (health * 100).toFixed(2) + "%</span>");
 				output.push("			<br/>");
 				output.push("			Location: " + (disc ? escapeHtml(nodes[aco.LastDiscoveredLocation].value) : "Unknown"));
 				output.push('		</div>');
