@@ -1,0 +1,21 @@
+body {
+	display: flex;
+	min-height: 100vh;
+	flex-direction: column;
+}
+
+main {
+	flex: 1 0 auto;
+}
+
+.page-footer {
+	padding-top: 0;
+}
+.page-footer .row {
+	margin-bottom: 0;
+	display: flex;
+}
+
+nav ul li a {
+	color: black;
+}

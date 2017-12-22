@@ -40,14 +40,11 @@ $(function() {
 		if(typeof(timesLeft) == 'undefined') {
 			timesLeft = seconds;
 		}
-		var $toastContent = $('<span class="black-text">' + (timesLeft != 0 ? ('Updating in: ' + timesLeft + 's') : "Updating...") + '</span>')
-		Materialize.toast($toastContent, 1000, 'white');
+		$("#counter").text(timesLeft != 0 ? ('Updating in: ' + timesLeft + 's') : "");
 		
 		if(timesLeft == 0) {
 			callback();
-			setTimeout(function() {
-				loopCountdownUpdate(seconds, callback);
-			}, 1000);
+			loopCountdownUpdate(seconds, callback);
 			
 		} else {
 			setTimeout(function() { loopCountdownUpdate(seconds, callback, timesLeft-1); }, 1000);
@@ -56,6 +53,7 @@ $(function() {
 	
 	function acolyteUpdate() {
 		$("#loader").show();
+		$("#counter").hide();
 		
 		getJSON(worldStateURL, function(worldStateJSON) {
 			worldState = worldStateJSON;
@@ -82,7 +80,7 @@ $(function() {
 				output.push('			<div class="progress grey"> <div class="determinate red" style="width: ' + (health * 100) + '%"></div> </div>');
 				output.push("			<span class='red-text'>Health: " + (health * 100).toFixed(1) + "%</span>");
 				output.push("			<br/>");
-				output.push("			Location: " + (disc ? escapeHtml(nodes[aco.LastDiscoveredLocation].value) : "Undiscovered"));
+				output.push("			Location: " + (disc ? escapeHtml(nodes[aco.LastDiscoveredLocation].value) : "Unknown"));
 				output.push('		</div>');
 				output.push('	</div>');
 				output.push('</div>');
@@ -102,6 +100,7 @@ $(function() {
 			}
 			
 			$("#loader").hide();
+			$("#counter").show();
 		});
 	}
 });

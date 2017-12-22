@@ -5,11 +5,9 @@
 		<link rel="shortcut icon" type="image/png" href="img/favicon.png"/>
 
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
-		<style>    
-			nav ul li a {
-				color: black;
-			}    
-		</style>
+		<link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
+		<link rel="stylesheet" href="css/main.css">
+
 		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-111555410-1"></script>
 		<script>
 		  window.dataLayer = window.dataLayer || [];
@@ -32,12 +30,11 @@
 			</nav>
 		</div>
 		
-		<div class="container">
-			
+		<main class="container">
 			<div class="card hoverable">
 				<div class="card-content">
 					<p>
-						Want to keep track of the Acolytes? Sick of sitting in front of your PC, constantly updating the dodgy Warframe navigation menu to stay up to date?
+						Sick of sitting in front of your PC, constantly updating the dodgy Warframe navigation menu in an attempt to stay up to date with the Acolytes?
 						<br/><br/>
 						Acolyte Tracker will automatically fetch the latest in Acolyte developments straight to your browser, on any device!
 					</p>
@@ -47,14 +44,35 @@
 			<div id="acolytes">
 			</div>
 			
-			<div id="loader" class="card hoverable">
+			<div class="card hoverable">
 				<div class="card-content">
-					<div class="progress grey">
+					<p id="counter"></p>
+					<div id="loader" class="progress grey">
 						<div class="indeterminate black"></div>
 					</div>
 				</div>
 			</div>
-		</div>
+		</main>
+		
+		<footer class="page-footer grey darken-3">
+			<div class="row">
+				<div class="col l6 grey darken-2">
+					<p class="white-text flow-text">Made with <i class="em em-black_heart"></i> by Markcreator</p>
+					<ul>
+						<li>Got some spare change? Save a Kubrow from the blender today:</li>
+						<li><a class="blue-text text-lighten-3" target='_blank' href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=2C3ZXGNTS8W8G">PayPal</a></li>
+					</ul>
+				</div>
+				<div class="col l5 offset-l1 grey darken-3">
+					<br/>
+					<h5 class="white-text flow-text">Links</h5>
+					<ul>
+						<li><a class="blue-text text-lighten-3" target='_blank' href="https://github.com/Markcreator">GitHub</a></li>
+						<li><a class="blue-text text-lighten-3" target='_blank' href="http://draak.online">Website</a></li>
+					</ul>
+				</div>
+			</div>
+		</footer>
 		
 		<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
