@@ -1,8 +1,16 @@
 $(function() {
 	var url_string = window.location.href;
 	var url = new URL(url_string);
-	var platform = url.searchParams.get("platform") || "pc";
-	$("#" + platform).addClass("black-text");
+	var platform;
+	try {
+		platform = url.searchParams.get("platform");
+	} catch(err) {
+	}
+	if(platform == null) {
+		platform = "pc";
+	}
+	
+	$("#" + platform).addClass("grey-text");
 	
 	var worldStateURLs = {
 		"pc": "http://content.warframe.com/dynamic/worldState.php",
@@ -12,6 +20,7 @@ $(function() {
 	var worldStateURL = worldStateURLs[platform];
 	var solNodeURL = "http://raw.githubusercontent.com/WFCD/warframe-worldstate-data/master/data/solNodes.json";
 	
+	//Audio feedback
 	var audio = new Audio('sound/sound.mp3');
 	audio.volume = 0.33;
 	$("#sounds").click(function() {
@@ -31,33 +40,110 @@ $(function() {
 		$("#sounds").click();
 	}
 	
+	//Night mode
+	$("#night").click(function() {
+		if($(this).hasClass("amber")) {
+			$(this).removeClass("amber");
+			$(this).addClass("blue darken-3");
+			$("#nightIcon").text("brightness_3");
+			localStorage.night = true;
+			
+			$("body, .nav-wrapper, .card, a").addClass("darken-4 white-text");
+			
+		} else {
+			$(this).addClass("amber");
+			$(this).removeClass("blue darken-3");
+			$("#nightIcon").text("brightness_5");
+			delete localStorage.night;
+			
+			$("body, .nav-wrapper, .card, a").removeClass("darken-4 white-text");
+		}
+	});
+	if(localStorage.night) {
+		$("#night").click();
+	}
+	
+	//
+	
 	var nodes;
 	var worldState;
 	
 	var acolytes = {
 		"StrikerAcolyte": {
 			"name": "Angst",
-			disc: false
+			disc: false,
+			"mods": [
+				"Body Count (51.52%)",
+				"Repeater Clip (22.22%)",
+				"Spring-Loaded Chamber (22.22%)",
+				"Pressurized Magazine (4.04%)"
+			]
 		},
 		"HeavyAcolyte": {
 			"name": "Malice",
-			disc: false
+			disc: false,
+			"mods": [
+				"Focused Defense (51.52%)",
+				"Guided Ordnance (22.22%)",
+				"Targeting Subsystem (22.22%)",
+				"Narrow Barrel (4.04%)"
+			]
 		},
 		"RogueAcolyte": {
 			"name": "Mania",
-			disc: false
+			disc: false,
+			"mods": [
+				"Catalyzer Link (51.52%)",
+				"Embedded Catalyzer (22.22%)",
+				"Weeping Wounds (22.22%)",
+				"Nano-Applicator (4.04%)"
+			]
 		},
 		"AreaCasterAcolyte": {
 			"name": "Misery",
-			disc: false
+			disc: false,
+			"mods": [
+				"Focused Defense (25.38%)",
+				"Body Count (8.57%)",
+				"Catalyzer Link (8.57%)",
+				"Hydraulic Crosshairs (8.57%)",
+				"Shrapnel Shot (8.57%)",
+				"Bladed Rounds (3.70%)",
+				"Blood Rush (3.70%)",
+				"Embedded Catalyzer (3.70%)",
+				"Guided Ordnance (3.70%)",
+				"Laser Sight (3.70%)",
+				"Repeater Clip (3.70%)",
+				"Sharpened Bullets (3.70%)",
+				"Spring-Loaded Chamber (3.70%)",
+				"Targeting Subsystem (3.70%)",
+				"Weeping Wounds (3.70%)",
+				"Argon Scope (0.67%)",
+				"Maiming Strike (0.67%)",
+				"Nano-Applicator (0.67%)",
+				"Narrow Barrel (0.67%)",
+				"Pressurized Magazine (0.67%)"
+			]
 		},
 		"ControlAcolyte": {
 			"name": "Torment",
-			disc: false
+			disc: false,
+			"mods": [
+				"Hydraulic Crosshairs (51.52%)",
+				"Blood Rush (22.22%)",
+				"Laser Sight (22.22%)",
+				"Argon Scope (4.04%)"
+			]
 		},
 		"DuellistAcolyte": {
 			"name": "Violence",
-			disc: false
+			disc: false,
+			"mods": [
+				"Shrapnel Shot (51.52%)",
+				"Bladed Rounds (22.22%)",
+				"Sharpened Bullets (22.22%)",
+				"Maiming Strike (4.04%)"
+			]
 		}
 	};
 	
@@ -115,6 +201,7 @@ $(function() {
 				var name = acolytes[acoName].name;
 				var disc = aco.Discovered;
 				var health = aco.HealthPercent;
+				var mods = acolytes[acoName].mods;
 				
 				if(acolytes[acoName].disc != disc) {
 					acolytes[acoName].disc = disc;
@@ -125,7 +212,7 @@ $(function() {
 				}
 					
 				var output = [];
-				output.push('<div class="card horizontal hoverable">');
+				output.push('<div class="card grey lighten-4 horizontal hoverable">');
 				output.push('	<div class="card-image">');
 				output.push('		<img src="img/' + acoName + '.png">');
 				output.push('	</div>');
@@ -135,7 +222,15 @@ $(function() {
 				output.push('			<div class="progress grey"> <div class="determinate red" style="width: ' + (health * 100) + '%"></div> </div>');
 				output.push("			<span class='red-text'>Health: " + (health * 100).toFixed(2) + "%</span>");
 				output.push("			<br/>");
-				output.push("			Location: " + (disc ? escapeHtml(nodes[aco.LastDiscoveredLocation].value) : "Unknown"));
+				output.push("			Location: " + (disc ? escapeHtml(nodes[aco.LastDiscoveredLocation].value + " [" + nodes[aco.LastDiscoveredLocation].type + "]") : "Unknown"));
+				output.push("			<br/>");
+				output.push("			<a class='dropdown-button btn grey' data-beloworigin='true' href='#' data-activates='dropdown-" + name + "'>Drops</a>");
+				output.push("			<ul id='dropdown-" + name + "' class='dropdown-content'>");
+				var x = 0;
+				for(var x = 0; x < mods.length; x++) {
+				output.push("				<li><a target='_blank' href='http://warframe.wikia.com/wiki/" + mods[x].split(" (")[0].replace(" ", "_") + "' class='grey lighten-4 black-text'>" + mods[x] + "</a></li>");
+				}
+				output.push("			</ul");
 				output.push('		</div>');
 				output.push('	</div>');
 				output.push('</div>');
@@ -145,17 +240,26 @@ $(function() {
 			
 			if(acolyteList.length == 0) {
 				var output = [];
-				output.push('<div class="card hoverable">');
+				output.push('<div class="card grey lighten-4 hoverable">');
 				output.push('	<div class="card-content flow-text">');
 				output.push('		No Acolytes are currently around...');
 				output.push('	</div>');
 				output.push('</div>');
 				
-				$("#acolytes").append(output.join(""));
+				var card = $("#acolytes").append(output.join(""));
 			}
+			
+			$('.dropdown-button').dropdown({
+				constrainWidth: false
+			});
 			
 			$("#loader").hide();
 			$("#counter").show();
+			
+			//Night mode
+			if($("#night").hasClass("blue")) {
+				$(".card, a").addClass("darken-4 white-text");
+			}
 		});
 	}
 });
