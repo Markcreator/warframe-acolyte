@@ -8,11 +8,56 @@
 		<script>
 			$(function() {
 				var worldStateURL = "http://content.warframe.com/dynamic/worldState.php";
-				var solNodeURL = "https://deathsnacks.com/wf/api/nodes.php";
-			
-				$.getJSON('https://anyorigin.com/get?url=' + solNodeURL + '&callback=?', function(data) {
-					$('#test').html(data.contents);
+				var solNodeURL = "http://raw.githubusercontent.com/WFCD/warframe-worldstate-data/master/data/solNodes.json";
+				
+				var nodes;
+				var worldState;
+				
+				var acolyteNames = {
+					"StrikerAcolyte": "Angst",
+					"HeavyAcolyte": "Malice",
+					"RogueAcolyte": "Mania",
+					"AreaCasterAcolyte": "Misery",
+					"ControlAcolyte": "Torment",
+					"DuellistAcolyte": "Violence"
+				};
+				
+				function getJSON(url, callback) {
+					$.getJSON('http://www.whateverorigin.org/get?url=' + encodeURIComponent(url) + '&callback=?', function(data) {
+						callback(JSON.parse(data.contents));
+					});
+				}
+				
+				getJSON(solNodeURL, function(nodeJSON) {
+					nodes = nodeJSON;
+
+					acolyteUpdate(1000 * 60);
 				});
+				
+				function acolyteUpdate(timeout) {
+					getJSON(worldStateURL, function(worldStateJSON) {
+						worldState = worldStateJSON;
+						
+						var output = [];
+						
+						var acolyteList = worldState.PersistentEnemies;
+						for(var i = 0; i < acolyteList.length; i++) {
+							var aco = acolyteList[i];
+							
+							var name = acolyteNames[aco.Icon.split("/")[aco.Icon.split("/").length-1].split(".png")[0]];
+							var disc = aco.Discovered;
+							
+							output.push(name);
+							output.push("Location: " + (disc ? nodes[aco.LastDiscoveredLocation].value : "Undiscovered"));
+							
+							output.push("");
+						}
+						
+						$("#test").html(output.join("<br/>"));
+					});
+					
+					setTimeout(function() { acolyteUpdate(timeout); }, timeout);
+				}
 			});
 		</script>
 		
