@@ -1,4 +1,6 @@
 # warframe-acolyte
-A web page to track the status of Acolytes on Warframe
+Want to keep track of the Acolytes? Sick of sitting in front of your PC, constantly updating the dodgy Warframe navigation menu to stay up to date?
 
-Link to view: http://cdn.rawgit.com/Markcreator/warframe-acolyte/5d536b0c/index.html
+Acolyte Tracker will automatically fetch the latest in Acolyte developments straight to your browser, on any device! 
+
+Link to view: http://acolyte.draak.online/
