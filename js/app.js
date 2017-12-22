@@ -12,16 +12,53 @@ $(function() {
 	var worldStateURL = worldStateURLs[platform];
 	var solNodeURL = "http://raw.githubusercontent.com/WFCD/warframe-worldstate-data/master/data/solNodes.json";
 	
+	var audio = new Audio('sound/sound.mp3');
+	audio.volume = 0.33;
+	$("#sounds").click(function() {
+		if($(this).hasClass("green")) {
+			$(this).removeClass("green");
+			$(this).addClass("red");
+			$("#soundsIcon").text("volume_off");
+			localStorage.muted = true;
+		} else {
+			$(this).addClass("green");
+			$(this).removeClass("red");
+			$("#soundsIcon").text("volume_up");
+			delete localStorage.muted;
+		}
+	});
+	if(localStorage.muted) {
+		$("#sounds").click();
+	}
+	
 	var nodes;
 	var worldState;
 	
-	var acolyteNames = {
-		"StrikerAcolyte": "Angst",
-		"HeavyAcolyte": "Malice",
-		"RogueAcolyte": "Mania",
-		"AreaCasterAcolyte": "Misery",
-		"ControlAcolyte": "Torment",
-		"DuellistAcolyte": "Violence"
+	var acolytes = {
+		"StrikerAcolyte": {
+			"name": "Angst",
+			disc: false
+		},
+		"HeavyAcolyte": {
+			"name": "Malice",
+			disc: false
+		},
+		"RogueAcolyte": {
+			"name": "Mania",
+			disc: false
+		},
+		"AreaCasterAcolyte": {
+			"name": "Misery",
+			disc: false
+		},
+		"ControlAcolyte": {
+			"name": "Torment",
+			disc: false
+		},
+		"DuellistAcolyte": {
+			"name": "Violence",
+			disc: false
+		}
 	};
 	
 	getJSON(solNodeURL, function(nodeJSON) {
@@ -75,10 +112,18 @@ $(function() {
 				var aco = acolyteList[i];
 				
 				var acoName = aco.Icon.split("/")[aco.Icon.split("/").length-1].split(".png")[0];
-				var name = acolyteNames[acoName];
+				var name = acolytes[acoName].name;
 				var disc = aco.Discovered;
 				var health = aco.HealthPercent;
 				
+				if(acolytes[acoName].disc != disc) {
+					acolytes[acoName].disc = disc;
+					
+					if($("#sounds").hasClass("green")) {
+						audio.play();
+					}
+				}
+					
 				var output = [];
 				output.push('<div class="card horizontal hoverable">');
 				output.push('	<div class="card-image">');
