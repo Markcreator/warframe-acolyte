@@ -9,7 +9,6 @@ $(function() {
 	if(platform == null) {
 		platform = "pc";
 	}
-	
 	$("#" + platform).addClass("grey-text");
 	
 	var worldStateURLs = {
@@ -67,6 +66,7 @@ $(function() {
 	
 	var nodes;
 	var worldState;
+	var currentAcolytes = {};
 	
 	var acolytes = {
 		"StrikerAcolyte": {
@@ -146,6 +146,14 @@ $(function() {
 			]
 		}
 	};
+	var acolyteOrder = [
+		"Angst",
+		"Malice",
+		"Mania",
+		"Misery",
+		"Torment",
+		"Violence"
+	];
 	
 	getJSON(solNodeURL, function(nodeJSON) {
 		nodes = nodeJSON;
@@ -155,7 +163,7 @@ $(function() {
 	});
 	
 	function getJSON(url, callback) {
-		$.getJSON('http://www.whateverorigin.org/get?url=' + encodeURIComponent(url) + '&callback=?', function(data) {
+		$.getJSON('https://whateverorigin.herokuapp.com/get?url=' + encodeURIComponent(url) + '&callback=?', function(data) {
 			callback(JSON.parse(data.contents));
 		});
 	}
@@ -184,6 +192,17 @@ $(function() {
 		}		
 	}
 	
+	function hiddenAcolyte(name) {		
+		var output = [];
+		output.push('<div id="acolyte-' + name + '" class="card grey lighten-4 horizontal hoverable">');
+
+		output.push('<div class="card-content flow-text">');
+		output.push("	" + name.toUpperCase() + "	<a id='show-" + name + "' name='" + name + "' href='#'>(Show)</a>");
+		output.push('</div>');
+		
+		return output.join("");
+	}
+	
 	function acolyteUpdate() {
 		$("#loader").show();
 		$("#counter").hide();
@@ -192,6 +211,7 @@ $(function() {
 			worldState = worldStateJSON;
 
 			$("#acolytes").empty();
+			currentAcolytes = {};
 			
 			var acolyteList = worldState.PersistentEnemies;
 			for(var i = 0; i < acolyteList.length; i++) {
@@ -207,18 +227,20 @@ $(function() {
 					acolytes[acoName].disc = disc;
 					
 					if($("#sounds").hasClass("green")) {
-						audio.play();
+						if(!localStorage["hide-" + name]) {
+							audio.play();
+						}
 					}
 				}
 					
 				var output = [];
-				output.push('<div class="card grey lighten-4 horizontal hoverable">');
+				output.push('<div id="acolyte-' + name + '" class="card grey lighten-4 horizontal hoverable">');
 				output.push('	<div class="card-image">');
 				output.push('		<img src="img/' + acoName + '.png">');
 				output.push('	</div>');
 				output.push('	<div class="card-stacked">');
 				output.push('		<div class="card-content flow-text">');
-				output.push("			" + name.toUpperCase() + "	<a class='right' target='_blank' href='http://warframe.wikia.com/wiki/" + name + "'>Wiki page</a>");
+				output.push("			" + name.toUpperCase() + "	<a id='hide-" + name + "' name='" + name + "' href='#'>(Hide)</a>	<a class='right' target='_blank' href='http://warframe.wikia.com/wiki/" + name + "'>Wiki page</a>");
 				output.push('			<div class="progress grey"> <div class="determinate red" style="width: ' + (health * 100) + '%"></div> </div>');
 				output.push("			<span class='red-text'>Health: " + (health * 100).toFixed(2) + "%</span>");
 				output.push("			<br/>");
@@ -235,7 +257,7 @@ $(function() {
 				output.push('	</div>');
 				output.push('</div>');
 				
-				$("#acolytes").append(output.join(""));
+				currentAcolytes[name] = output.join("");
 			}
 			
 			if(acolyteList.length == 0) {
@@ -246,20 +268,77 @@ $(function() {
 				output.push('	</div>');
 				output.push('</div>');
 				
-				var card = $("#acolytes").append(output.join(""));
+				$("#acolytes").append(output.join(""));
+				
+			} else {
+				function show() {
+					var name = $(this).attr("name");
+								
+					delete localStorage["hide-" + name];
+					$("#acolyte-" + name).remove();
+					$("#acolytes").append(currentAcolytes[name]);
+					
+					$("#hide-" + name).click(hide);
+					
+					//Night mode
+					if($("#night").hasClass("blue")) {
+						$(".card, a").addClass("darken-4 white-text");
+					}
+				}
+				
+				function hide() {
+					var name = $(this).attr("name");
+								
+					localStorage["hide-" + name] = true;
+					$("#acolyte-" + name).remove();
+					$("#acolytes").append(hiddenAcolyte(name));
+					
+					$("#show-" + name).click(show);
+					
+					//Night mode
+					if($("#night").hasClass("blue")) {
+						$(".card, a").addClass("darken-4 white-text");
+					}
+				}
+				
+				//Shown on top
+				for(var x = 0; x < acolyteOrder.length; x++) {
+					var name = acolyteOrder[x];
+					
+					if(typeof(currentAcolytes[name]) != 'undefined') {
+						if(!localStorage["hide-" + name]) {
+							$("#acolytes").append(currentAcolytes[name]);
+						
+							$("#hide-" + name).click(hide);
+						}
+					}
+				}
+				
+				// Hidden on bottom
+				for(var x = 0; x < acolyteOrder.length; x++) {
+					var name = acolyteOrder[x];
+					
+					if(typeof(currentAcolytes[name]) != 'undefined') {
+						if(localStorage["hide-" + name]) {
+							$("#acolytes").append(hiddenAcolyte(name));
+							
+							$("#show-" + name).click(show);
+						}
+					}
+				}
 			}
 			
 			$('.dropdown-button').dropdown({
 				constrainWidth: false
 			});
 			
-			$("#loader").hide();
-			$("#counter").show();
-			
 			//Night mode
 			if($("#night").hasClass("blue")) {
 				$(".card, a").addClass("darken-4 white-text");
 			}
+			
+			$("#loader").hide();
+			$("#counter").show();
 		});
 	}
 });
