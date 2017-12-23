@@ -17,7 +17,7 @@ $(function() {
 		"xbox": "http://content.xb1.warframe.com/dynamic/worldState.php"
 	};
 	var worldStateURL = worldStateURLs[platform];
-	var solNodeURL = "http://raw.githubusercontent.com/WFCD/warframe-worldstate-data/master/data/solNodes.json";
+	var solNodeURL = "https://raw.githubusercontent.com/WFCD/warframe-worldstate-data/master/data/solNodes.json";
 	
 	//Audio feedback
 	var audio = new Audio('sound/sound.mp3');
@@ -47,7 +47,7 @@ $(function() {
 			$("#nightIcon").text("brightness_3");
 			localStorage.night = true;
 			
-			$("body, .nav-wrapper, .card, a").addClass("darken-4 white-text");
+			$("body, .nav-wrapper, .card, a").not(".btn").addClass("darken-4 white-text");
 			
 		} else {
 			$(this).addClass("amber");
@@ -55,7 +55,7 @@ $(function() {
 			$("#nightIcon").text("brightness_5");
 			delete localStorage.night;
 			
-			$("body, .nav-wrapper, .card, a").removeClass("darken-4 white-text");
+			$("body, .nav-wrapper, .card, a").not(".btn").removeClass("darken-4 white-text");
 		}
 	});
 	if(localStorage.night) {
@@ -197,10 +197,114 @@ $(function() {
 		output.push('<div id="acolyte-' + name + '" class="card grey lighten-4 horizontal hoverable">');
 
 		output.push('<div class="card-content flow-text">');
-		output.push("	" + name.toUpperCase() + "	<a id='show-" + name + "' name='" + name + "' href='#'>(Show)</a>");
+		output.push("	" + name.toUpperCase() + "	<a id='show-" + name + "' name='" + name + "' class='pointer'>(Show)</a>");
 		output.push('</div>');
 		
 		return output.join("");
+	}
+	
+	function render() {
+		$("#acolytes").empty();
+		currentAcolytes = {};
+		
+		var acolyteList = worldState.PersistentEnemies;
+		for(var i = 0; i < acolyteList.length; i++) {
+			var aco = acolyteList[i];
+			
+			var acoName = aco.Icon.split("/")[aco.Icon.split("/").length-1].split(".png")[0];
+			var name = acolytes[acoName].name;
+			var disc = aco.Discovered;
+			var health = aco.HealthPercent;
+			var mods = acolytes[acoName].mods;
+			
+			if(acolytes[acoName].disc != disc) {
+				acolytes[acoName].disc = disc;
+				
+				if($("#sounds").hasClass("green")) {
+					if(!localStorage["hide-" + name]) {
+						audio.play();
+					}
+				}
+			}
+				
+			var output = [];
+			output.push('<div id="acolyte-' + name + '" class="card grey lighten-4 horizontal hoverable">');
+			output.push('	<div class="card-image">');
+			output.push('		<img src="img/' + acoName + '.png">');
+			output.push('	</div>');
+			output.push('	<div class="card-stacked">');
+			output.push('		<div class="card-content flow-text">');
+			output.push("			" + name.toUpperCase() + "	<a id='hide-" + name + "' name='" + name + "' class='pointer'>(Hide)</a>	<a class='right' target='_blank' href='http://warframe.wikia.com/wiki/" + name + "'>Wiki page</a>");
+			output.push('			<div class="progress grey"> <div class="determinate red" style="width: ' + (health * 100) + '%"></div> </div>');
+			output.push("			<span class='red-text'>Health: " + (health * 100).toFixed(2) + "%</span>");
+			output.push("			<br/>");
+			output.push("			Location: " + (disc ? escapeHtml(nodes[aco.LastDiscoveredLocation].value + " [" + nodes[aco.LastDiscoveredLocation].type + "]") : "Unknown"));
+			output.push("			<br/>");
+			output.push("			<a class='dropdown-button btn grey darken-2' data-beloworigin='true' data-activates='dropdown-" + name + "'>Drops</a>");
+			output.push("			<ul id='dropdown-" + name + "' class='dropdown-content'>");
+			var x = 0;
+			for(var x = 0; x < mods.length; x++) {
+			output.push("				<li><a target='_blank' href='http://warframe.wikia.com/wiki/" + mods[x].split(" (")[0].replace(" ", "_") + "' class='grey lighten-4 black-text'>" + mods[x] + "</a></li>");
+			}
+			output.push("			</ul");
+			output.push('		</div>');
+			output.push('	</div>');
+			output.push('</div>');
+			
+			currentAcolytes[name] = output.join("");
+		}
+		
+		if(acolyteList.length == 0) {
+			var output = [];
+			output.push('<div class="card grey lighten-4 hoverable">');
+			output.push('	<div class="card-content flow-text">');
+			output.push('		No Acolytes are currently around...');
+			output.push('	</div>');
+			output.push('</div>');
+			
+			$("#acolytes").append(output.join(""));
+			
+		} else {
+			function show() {
+				var name = $(this).attr("name");
+							
+				delete localStorage["hide-" + name];
+				render();
+			}
+			
+			function hide() {
+				var name = $(this).attr("name");
+							
+				localStorage["hide-" + name] = true;
+				render();
+			}
+			
+			for(var x = 0; x < acolyteOrder.length; x++) {
+				var name = acolyteOrder[x];
+				
+				if(typeof(currentAcolytes[name]) != 'undefined') {
+					if(!localStorage["hide-" + name]) {
+						$("#acolytes").append(currentAcolytes[name]);
+					
+						$("#hide-" + name).click(hide);
+						
+					} else {
+						$("#acolytes").append(hiddenAcolyte(name));
+						
+						$("#show-" + name).click(show);
+					}
+				}
+			}
+		}
+		
+		$('.dropdown-button').dropdown({
+			constrainWidth: false
+		});
+		
+		//Night mode
+		if($("#night").hasClass("blue")) {
+			$(".card, a").not(".btn").addClass("darken-4 white-text");
+		}
 	}
 	
 	function acolyteUpdate() {
@@ -210,140 +314,7 @@ $(function() {
 		getJSON(worldStateURL, function(worldStateJSON) {
 			worldState = worldStateJSON;
 
-			$("#acolytes").empty();
-			currentAcolytes = {};
-			
-			var acolyteList = worldState.PersistentEnemies;
-			for(var i = 0; i < acolyteList.length; i++) {
-				var aco = acolyteList[i];
-				
-				var acoName = aco.Icon.split("/")[aco.Icon.split("/").length-1].split(".png")[0];
-				var name = acolytes[acoName].name;
-				var disc = aco.Discovered;
-				var health = aco.HealthPercent;
-				var mods = acolytes[acoName].mods;
-				
-				if(acolytes[acoName].disc != disc) {
-					acolytes[acoName].disc = disc;
-					
-					if($("#sounds").hasClass("green")) {
-						if(!localStorage["hide-" + name]) {
-							audio.play();
-						}
-					}
-				}
-					
-				var output = [];
-				output.push('<div id="acolyte-' + name + '" class="card grey lighten-4 horizontal hoverable">');
-				output.push('	<div class="card-image">');
-				output.push('		<img src="img/' + acoName + '.png">');
-				output.push('	</div>');
-				output.push('	<div class="card-stacked">');
-				output.push('		<div class="card-content flow-text">');
-				output.push("			" + name.toUpperCase() + "	<a id='hide-" + name + "' name='" + name + "' href='#'>(Hide)</a>	<a class='right' target='_blank' href='http://warframe.wikia.com/wiki/" + name + "'>Wiki page</a>");
-				output.push('			<div class="progress grey"> <div class="determinate red" style="width: ' + (health * 100) + '%"></div> </div>');
-				output.push("			<span class='red-text'>Health: " + (health * 100).toFixed(2) + "%</span>");
-				output.push("			<br/>");
-				output.push("			Location: " + (disc ? escapeHtml(nodes[aco.LastDiscoveredLocation].value + " [" + nodes[aco.LastDiscoveredLocation].type + "]") : "Unknown"));
-				output.push("			<br/>");
-				output.push("			<a class='dropdown-button btn grey' data-beloworigin='true' href='#' data-activates='dropdown-" + name + "'>Drops</a>");
-				output.push("			<ul id='dropdown-" + name + "' class='dropdown-content'>");
-				var x = 0;
-				for(var x = 0; x < mods.length; x++) {
-				output.push("				<li><a target='_blank' href='http://warframe.wikia.com/wiki/" + mods[x].split(" (")[0].replace(" ", "_") + "' class='grey lighten-4 black-text'>" + mods[x] + "</a></li>");
-				}
-				output.push("			</ul");
-				output.push('		</div>');
-				output.push('	</div>');
-				output.push('</div>');
-				
-				currentAcolytes[name] = output.join("");
-			}
-			
-			if(acolyteList.length == 0) {
-				var output = [];
-				output.push('<div class="card grey lighten-4 hoverable">');
-				output.push('	<div class="card-content flow-text">');
-				output.push('		No Acolytes are currently around...');
-				output.push('	</div>');
-				output.push('</div>');
-				
-				$("#acolytes").append(output.join(""));
-				
-			} else {
-				function show() {
-					var name = $(this).attr("name");
-								
-					delete localStorage["hide-" + name];
-					$("#acolyte-" + name).remove();
-					$("#acolytes").append(currentAcolytes[name]);
-					
-					$("#hide-" + name).click(hide);
-					
-					//Night mode
-					if($("#night").hasClass("blue")) {
-						$(".card, a").addClass("darken-4 white-text");
-					}
-					// Enable dropdowns
-					$('.dropdown-button').dropdown({
-						constrainWidth: false
-					});
-				}
-				
-				function hide() {
-					var name = $(this).attr("name");
-								
-					localStorage["hide-" + name] = true;
-					$("#acolyte-" + name).remove();
-					$("#acolytes").append(hiddenAcolyte(name));
-					
-					$("#show-" + name).click(show);
-					
-					//Night mode
-					if($("#night").hasClass("blue")) {
-						$(".card, a").addClass("darken-4 white-text");
-					}
-					// Enable dropdowns
-					$('.dropdown-button').dropdown({
-						constrainWidth: false
-					});
-				}
-				
-				//Shown on top
-				for(var x = 0; x < acolyteOrder.length; x++) {
-					var name = acolyteOrder[x];
-					
-					if(typeof(currentAcolytes[name]) != 'undefined') {
-						if(!localStorage["hide-" + name]) {
-							$("#acolytes").append(currentAcolytes[name]);
-						
-							$("#hide-" + name).click(hide);
-						}
-					}
-				}
-				
-				// Hidden on bottom
-				for(var x = 0; x < acolyteOrder.length; x++) {
-					var name = acolyteOrder[x];
-					
-					if(typeof(currentAcolytes[name]) != 'undefined') {
-						if(localStorage["hide-" + name]) {
-							$("#acolytes").append(hiddenAcolyte(name));
-							
-							$("#show-" + name).click(show);
-						}
-					}
-				}
-			}
-			
-			$('.dropdown-button').dropdown({
-				constrainWidth: false
-			});
-			
-			//Night mode
-			if($("#night").hasClass("blue")) {
-				$(".card, a").addClass("darken-4 white-text");
-			}
+			render();
 			
 			$("#loader").hide();
 			$("#counter").show();

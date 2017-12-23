@@ -27,3 +27,7 @@ body, .nav-wrapper, .card, a {
 	-ms-transition: all 0.25s ease-in-out;
 	transition: all 0.25s ease-in-out;
 }
+
+.pointer {
+	cursor: pointer;
+}
