@@ -192,7 +192,7 @@ $(function() {
 		}		
 	}
 	
-	function hiddenAcolyte(name) {		
+	function hiddenAcolyte(name) {
 		var output = [];
 		output.push('<div id="acolyte-' + name + '" class="card grey lighten-4 horizontal hoverable">');
 
@@ -284,6 +284,10 @@ $(function() {
 					if($("#night").hasClass("blue")) {
 						$(".card, a").addClass("darken-4 white-text");
 					}
+					// Enable dropdowns
+					$('.dropdown-button').dropdown({
+						constrainWidth: false
+					});
 				}
 				
 				function hide() {
@@ -299,6 +303,10 @@ $(function() {
 					if($("#night").hasClass("blue")) {
 						$(".card, a").addClass("darken-4 white-text");
 					}
+					// Enable dropdowns
+					$('.dropdown-button').dropdown({
+						constrainWidth: false
+					});
 				}
 				
 				//Shown on top
