@@ -9,7 +9,7 @@ $(function() {
 	if(platform == null) {
 		platform = "pc";
 	}
-	$("#" + platform).addClass("grey-text");
+	$("#" + platform).addClass("indigo-text");
 	
 	var worldStateURLs = {
 		"pc": "http://content.warframe.com/dynamic/worldState.php",
@@ -47,7 +47,8 @@ $(function() {
 			$("#nightIcon").text("brightness_3");
 			localStorage.night = true;
 			
-			$("body, .nav-wrapper, .card, a").not(".btn").addClass("darken-4 white-text");
+			$("body, .nav-wrapper, .card, a").not(".btn, .brand-logo").addClass("darken-4").not("li a").addClass("grey-text");
+			$("img").addClass("darkImg");
 			
 		} else {
 			$(this).addClass("amber");
@@ -55,7 +56,8 @@ $(function() {
 			$("#nightIcon").text("brightness_5");
 			delete localStorage.night;
 			
-			$("body, .nav-wrapper, .card, a").not(".btn").removeClass("darken-4 white-text");
+			$("body, .nav-wrapper, .card, a").not(".btn, .brand-logo").removeClass("darken-4").not("li a").removeClass("grey-text");
+			$("img").removeClass("darkImg");
 		}
 	});
 	if(localStorage.night) {
@@ -235,16 +237,16 @@ $(function() {
 			output.push('	<div class="card-stacked">');
 			output.push('		<div class="card-content flow-text">');
 			output.push("			" + name.toUpperCase() + "	<a id='hide-" + name + "' name='" + name + "' class='pointer'>(Hide)</a>	<a class='right' target='_blank' href='http://warframe.wikia.com/wiki/" + name + "'>Wiki page</a>");
-			output.push('			<div class="progress grey"> <div class="determinate red" style="width: ' + (health * 100) + '%"></div> </div>');
+			output.push('			<div class="progress grey darken-1"> <div class="determinate red" style="width: ' + (health * 100) + '%"></div> </div>');
 			output.push("			<span class='red-text'>Health: " + (health * 100).toFixed(2) + "%</span>");
 			output.push("			<br/>");
 			output.push("			Location: " + (disc ? escapeHtml(nodes[aco.LastDiscoveredLocation].value + " [" + nodes[aco.LastDiscoveredLocation].type + "]") : "Unknown"));
 			output.push("			<br/>");
-			output.push("			<a class='dropdown-button btn grey darken-2' data-beloworigin='true' data-activates='dropdown-" + name + "'>Drops</a>");
+			output.push("			<a class='dropdown-button btn grey darken-3 grey-text' data-beloworigin='true' data-activates='dropdown-" + name + "'>Drops</a>");
 			output.push("			<ul id='dropdown-" + name + "' class='dropdown-content'>");
 			var x = 0;
 			for(var x = 0; x < mods.length; x++) {
-			output.push("				<li><a target='_blank' href='http://warframe.wikia.com/wiki/" + mods[x].split(" (")[0].replace(" ", "_") + "' class='grey lighten-4 black-text'>" + mods[x] + "</a></li>");
+			output.push("				<li><a target='_blank' href='http://warframe.wikia.com/wiki/" + mods[x].split(" (")[0].replace(" ", "_") + "' class='grey lighten-4 grey-text text-darken-1'>" + mods[x] + "</a></li>");
 			}
 			output.push("			</ul");
 			output.push('		</div>');
@@ -303,7 +305,8 @@ $(function() {
 		
 		//Night mode
 		if($("#night").hasClass("blue")) {
-			$(".card, a").not(".btn").addClass("darken-4 white-text");
+			$(".card, a").not(".btn, .brand-logo").addClass("darken-4").not("li a").addClass("grey-text");
+			$("img").addClass("darkImg");
 		}
 	}
 	
