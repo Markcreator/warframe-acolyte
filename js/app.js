@@ -31,23 +31,43 @@ $(function() {
 	
 	//Audio feedback
 	var audio = new Audio('sound/sound.mp3');
-	audio.volume = 0.33;
-	$("#sounds").click(function() {
-		if($(this).hasClass("green")) {
-			$(this).removeClass("green");
-			$(this).addClass("red");
+	audio.volume = localStorage.sound || 0;
+	function loadSoundButton(volume) {
+		if(!volume) {
+			$("#sounds").addClass("red");
+			$("#sounds").removeClass("green");
 			$("#soundsIcon").text("volume_off");
-			localStorage.muted = true;
+		
+		} else if(volume == 0.33) {
+			$("#sounds").addClass("green");
+			$("#sounds").removeClass("red");
+			$("#soundsIcon").text("volume_down");
+			
 		} else {
-			$(this).addClass("green");
-			$(this).removeClass("red");
+			$("#sounds").addClass("green");
+			$("#sounds").removeClass("red");
 			$("#soundsIcon").text("volume_up");
-			delete localStorage.muted;
+		}
+	}
+	$("#sounds").click(function() {
+		if(!localStorage.sound) {
+			localStorage.sound = 0.33;
+		} else if(localStorage.sound == 0.33) {
+			localStorage.sound = 1.0;
+		} else {
+			delete localStorage.sound;
+		}
+		
+		loadSoundButton(localStorage.sound);
+		
+		audio.volume = localStorage.sound || 0;
+		if(audio.volume != 0) {
+			audio.pause();
+			audio.currentTime = 0;
+			audio.play();
 		}
 	});
-	if(localStorage.muted) {
-		$("#sounds").click();
-	}
+	loadSoundButton(localStorage.sound);
 	
 	//Night mode
 	$("#night").click(function() {
