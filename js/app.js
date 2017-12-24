@@ -1,4 +1,14 @@
 $(function() {
+
+	// Register service worker for PWA support
+	if("serviceWorker" in navigator) {
+		navigator.serviceWorker.register("js/service-worker.js").then(function(registration){
+			window.serviceWorker = registration;
+		}).catch(function(error) {
+			console.warn("Service worker registration failed", error);
+		});
+	}
+
 	var url_string = window.location.href;
 	var url = new URL(url_string);
 	var platform;
