@@ -8,6 +8,13 @@ main {
 	flex: 1 0 auto;
 }
 
+.platform-navigation a {
+	display: block;
+	padding: .82rem 0 .656rem 0;
+	font-size: 1.64rem;
+	line-height: 110%;
+}
+
 .page-footer {
 	padding-top: 0;
 }
