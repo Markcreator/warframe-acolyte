@@ -3,4 +3,4 @@ Want to keep track of the Acolytes? Sick of sitting in front of your PC, constan
 
 Acolyte Tracker will automatically fetch the latest in Acolyte developments straight to your browser, on any device! 
 
-Link to view: http://acolyte.draak.online/
+Link to view: https://acolyte.draak.online/
