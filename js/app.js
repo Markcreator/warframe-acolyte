@@ -1,5 +1,8 @@
 $(function() {
 
+	// Load tooltips
+	$('.tooltipped').tooltip();
+
 	// Register service worker for PWA support
 	if("serviceWorker" in navigator) {
 		navigator.serviceWorker.register("js/service-worker.js").then(function(registration){
@@ -8,7 +11,8 @@ $(function() {
 			console.warn("Service worker registration failed", error);
 		});
 	}
-
+	
+	// Get which platform
 	var url_string = window.location.href;
 	var url = new URL(url_string);
 	var platform;
@@ -21,6 +25,7 @@ $(function() {
 	}
 	$("#" + platform).addClass("indigo-text");
 	
+	// URLs
 	var worldStateURLs = {
 		"pc": "http://content.warframe.com/dynamic/worldState.php",
 		"ps4": "http://content.ps4.warframe.com/dynamic/worldState.php",
@@ -29,7 +34,7 @@ $(function() {
 	var worldStateURL = worldStateURLs[platform];
 	var solNodeURL = "https://raw.githubusercontent.com/WFCD/warframe-worldstate-data/master/data/solNodes.json";
 	
-	//Audio feedback
+	// Audio feedback
 	var audio = new Audio('sound/sound.mp3');
 	audio.volume = localStorage.sound || 0;
 	function loadSoundButton(volume) {
@@ -69,7 +74,7 @@ $(function() {
 	});
 	loadSoundButton(localStorage.sound);
 	
-	//Night mode
+	// Night mode
 	$("#night").click(function() {
 		if($(this).hasClass("amber")) {
 			$(this).removeClass("amber");
@@ -94,7 +99,28 @@ $(function() {
 		$("#night").click();
 	}
 	
-	//
+	// Notifications
+	$("#notifications").click(function() {
+		if($(this).hasClass("red")) {
+			Notification.requestPermission().then(function(result) {
+				if(result === "granted") {
+					$("#notifications").removeClass("red");
+					$("#notifications").addClass("green");
+					localStorage.notifications = true;
+				}
+			});
+
+		} else {
+			$(this).addClass("red");
+			$(this).removeClass("green");
+			delete localStorage.notifications;
+		}
+	});
+	if(localStorage.notifications) {
+		$("#notifications").click();
+	}
+	
+	// Data
 	
 	var nodes;
 	var worldState;
@@ -187,12 +213,15 @@ $(function() {
 		"Violence"
 	];
 	
+	// Fetch data from URLs and start update loop	
 	getJSON(solNodeURL, function(nodeJSON) {
 		nodes = nodeJSON;
 
 		acolyteUpdate();
 		loopCountdownUpdate(30, acolyteUpdate);
 	});
+	
+	// Functions
 	
 	function getJSON(url, callback) {
 		$.getJSON('https://whateverorigin.herokuapp.com/get?url=' + encodeURIComponent(url) + '&callback=?', function(data) {
@@ -209,6 +238,7 @@ $(function() {
 			 .replace(/'/g, "&#039;");
 	}
 	
+	// Update countdown function
 	function loopCountdownUpdate(seconds, callback, timesLeft) {
 		if(typeof(timesLeft) == 'undefined') {
 			timesLeft = seconds;
@@ -224,6 +254,7 @@ $(function() {
 		}		
 	}
 	
+	// Hidden Acolyte card builder
 	function hiddenAcolyte(name) {
 		var output = [];
 		output.push('<div id="acolyte-' + name + '" class="card grey lighten-4 horizontal hoverable">');
@@ -235,6 +266,7 @@ $(function() {
 		return output.join("");
 	}
 	
+	// Function to render all Acolyte cards
 	function render() {
 		$("#acolytes").empty();
 		currentAcolytes = {};
@@ -248,6 +280,7 @@ $(function() {
 			var disc = aco.Discovered;
 			var health = aco.HealthPercent;
 			var mods = acolytes[acoName].mods;
+			var location = disc ? escapeHtml(nodes[aco.LastDiscoveredLocation].value + " [" + nodes[aco.LastDiscoveredLocation].type + "]") : "Unknown";
 			
 			if(acolytes[acoName].disc != disc) {
 				acolytes[acoName].disc = disc;
@@ -255,6 +288,11 @@ $(function() {
 				if($("#sounds").hasClass("green")) {
 					if(!localStorage["hide-" + name]) {
 						audio.play();
+					}
+				}
+				if($("#notifications").hasClass("green")) {
+					if(!localStorage["hide-" + name]) {
+						notifyAcolyte(acoName, name, disc, location);
 					}
 				}
 			}
@@ -270,9 +308,9 @@ $(function() {
 			output.push('			<div class="progress grey darken-1"> <div class="determinate red" style="width: ' + (health * 100) + '%"></div> </div>');
 			output.push("			<span class='red-text'>Health: " + (health * 100).toFixed(2) + "%</span>");
 			output.push("			<br/>");
-			output.push("			Location: " + (disc ? escapeHtml(nodes[aco.LastDiscoveredLocation].value + " [" + nodes[aco.LastDiscoveredLocation].type + "]") : "Unknown"));
+			output.push("			Location: " + location);
 			output.push("			<br/>");
-			output.push("			<a class='dropdown-button btn grey darken-3 grey-text' data-beloworigin='true' data-activates='dropdown-" + name + "'>Drops</a>");
+			output.push("			<a class='dropdown-button btn waves-effect waves-light grey darken-3 grey-text' data-beloworigin='true' data-activates='dropdown-" + name + "'>Drops</a>");
 			output.push("			<ul id='dropdown-" + name + "' class='dropdown-content'>");
 			var x = 0;
 			for(var x = 0; x < mods.length; x++) {
@@ -340,6 +378,7 @@ $(function() {
 		}
 	}
 	
+	// UI refreshing behaviour
 	function acolyteUpdate() {
 		$("#loader").show();
 		$("#counter").hide();
@@ -352,5 +391,30 @@ $(function() {
 			$("#loader").hide();
 			$("#counter").show();
 		});
+	}
+	
+	// Notification behaviour
+	function notifyAcolyte(acoName, name, disc, location) {
+		var title = "Acolyte Tracker";
+		var options = {
+			icon: 'img/' + acoName + '.png',
+			body: name.toUpperCase() + "'s location is now:\n" + location
+		};
+		
+		if (!("Notification" in window)) {
+			return;
+		
+		} else if (Notification.permission === "granted") {
+			var notification = new Notification(title, options);
+		
+		} else if (Notification.permission !== 'denied') {
+			Notification.requestPermission(function (permission) {
+				if (permission === "granted") {
+					var notification = new Notification(title, options);
+				}
+			});
+		}
+		
+		// Else no notifications
 	}
 });
