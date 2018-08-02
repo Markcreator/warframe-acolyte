@@ -44,6 +44,11 @@ body, .nav-wrapper, .card, a, img {
     filter:alpha(opacity=60);
 }
 
+hr {
+	border: 1px solid grey;
+	border-bottom: 0;
+}
+
 .donate {
 	margin-top: 1em;
 	width: 100%;
