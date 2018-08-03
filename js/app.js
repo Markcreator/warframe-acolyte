@@ -272,6 +272,22 @@ $(function() {
 		currentAcolytes = {};
 		
 		var acolyteList = worldState.PersistentEnemies;
+		// Test data
+		var useTestData = false;
+		if(useTestData) {
+			acolyteList = [{
+				Icon: "/DuellistAcolyte.png",
+				Discovered: Math.random() >= 0.5,
+				HealthPercent: 0.789,
+				LastDiscoveredLocation: "SolNode23"
+			},
+			{
+				Icon: "/HeavyAcolyte.png",
+				Discovered: Math.random() >= 0.5,
+				HealthPercent: 0.123,
+				LastDiscoveredLocation: "SolNode24"
+			}];
+		}
 		for(var i = 0; i < acolyteList.length; i++) {
 			var aco = acolyteList[i];
 			
@@ -327,8 +343,8 @@ $(function() {
 		if(acolyteList.length == 0) {
 			var output = [];
 			output.push('<div class="card grey lighten-4 hoverable">');
-			output.push('	<div class="card-content flow-text">');
-			output.push('		No Acolytes are currently around...');
+			output.push('	<div class="card-content flow-text red-text">');
+			output.push('		No Acolytes are currently around. :(');
 			output.push('	</div>');
 			output.push('</div>');
 			
