@@ -321,7 +321,7 @@ $(function() {
 			output.push('	<div class="card-stacked">');
 			output.push('		<div class="card-content flow-text">');
 			output.push("			" + name.toUpperCase() + "	<a id='hide-" + name + "' name='" + name + "' class='pointer'>(Hide)</a>	<a class='right' target='_blank' href='http://warframe.wikia.com/wiki/" + name + "'>Wiki page</a>");
-			output.push('			<div class="progress grey darken-1"> <div class="determinate red" style="width: ' + (health * 100) + '%"></div> </div>');
+			output.push('			<div class="progress grey darken-2"> <div class="determinate health" style="width: ' + (health * 100) + '%"></div> </div>');
 			output.push("			<span class='red-text'>Health: " + (health * 100).toFixed(2) + "%</span>");
 			output.push("			<br/>");
 			output.push("			Location: " + location);

@@ -39,6 +39,10 @@ body, .nav-wrapper, .card, a, img {
 	border-radius: 20px 40px;
 }
 
+.progress {
+	height: 1em;
+}
+
 .pointer {
 	cursor: pointer;
 }
@@ -98,4 +102,12 @@ hr {
 	100% {
 		background-position: 0% 50%
 	}
+}
+
+.health {
+	background: linear-gradient(-45deg, red, orange);
+	background-size: 200% 200%;
+	-webkit-animation: Gradient 3s ease infinite;
+	-moz-animation: Gradient 3s ease infinite;
+	animation: Gradient 3s ease infinite;
 }
