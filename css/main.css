@@ -68,6 +68,26 @@ hr {
 	animation: Gradient 15s ease infinite;
 }
 
+.health {
+	background: linear-gradient(-45deg, red, orange);
+	background-size: 200% 200%;
+	-webkit-animation: Gradient 3s ease infinite;
+	-moz-animation: Gradient 3s ease infinite;
+	animation: Gradient 3s ease infinite;
+}
+
+.giveaway {
+	height: 15em;
+}
+
+.giveaway-text {
+	position: absolute;
+	top: 10%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	text-shadow: 2px 2px 2px #000000;
+}
+
 @-webkit-keyframes Gradient {
 	0% {
 		background-position: 0% 50%
@@ -102,12 +122,4 @@ hr {
 	100% {
 		background-position: 0% 50%
 	}
-}
-
-.health {
-	background: linear-gradient(-45deg, red, orange);
-	background-size: 200% 200%;
-	-webkit-animation: Gradient 3s ease infinite;
-	-moz-animation: Gradient 3s ease infinite;
-	animation: Gradient 3s ease infinite;
 }
