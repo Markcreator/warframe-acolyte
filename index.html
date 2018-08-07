@@ -69,7 +69,9 @@
 				<div class="card-content">
 					<p>
 						<center class="flow-text red-text">
-							<b>The Acolytes have returned!</b>
+							<b>The Acolytes are returning TODAY!</b>
+							<br><br>
+							Get your grinding hats ready and don't forget to pray to RNGsus!
 						</center>
 						
 						<br/>
@@ -137,7 +139,11 @@
 		
 		<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
-		<script src="js/app.js"></script>
 		
+		<script>
+			var script = document.createElement('script');
+			script.src = "js/app.js?_=" + new Date().getTime();
+			document.getElementsByTagName('body')[0].appendChild(script);
+		</script>
 	</body>
 </html> 
