@@ -273,7 +273,7 @@ $(function() {
 		
 		var acolyteList = worldState.PersistentEnemies;
 		// Test data
-		var useTestData = false;
+		var useTestData = true;
 		if(useTestData) {
 			acolyteList = [{
 				Icon: "/DuellistAcolyte.png",
