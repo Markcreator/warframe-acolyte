@@ -1,3 +1,5 @@
+var useTestData = false;
+
 $(function() {
 
 	// Load tooltips
@@ -273,7 +275,6 @@ $(function() {
 		
 		var acolyteList = worldState.PersistentEnemies;
 		// Test data
-		var useTestData = false;
 		if(useTestData) {
 			acolyteList = [{
 				Icon: "/DuellistAcolyte.png",
