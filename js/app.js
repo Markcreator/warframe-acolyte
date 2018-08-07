@@ -1,5 +1,10 @@
 var useTestData = false;
 
+// HTTPS upgrade
+if(window.location.toString().startsWith("http://")) {
+	window.location = "https://" + window.location.toString().split("//")[1];
+}
+
 $(function() {
 
 	// Load tooltips
