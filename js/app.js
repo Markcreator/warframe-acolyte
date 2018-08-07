@@ -344,7 +344,7 @@ $(function() {
 			var output = [];
 			output.push('<div class="card grey lighten-4 hoverable">');
 			output.push('	<div class="card-content flow-text red-text">');
-			output.push('		No Acolytes are currently around. :(');
+			output.push('		No Acolytes are around yet. Soon™');
 			output.push('	</div>');
 			output.push('</div>');
 			
