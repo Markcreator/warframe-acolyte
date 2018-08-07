@@ -2,7 +2,7 @@ var useTestData = false;
 
 // HTTPS upgrade
 if(window.location.toString().startsWith("http://")) {
-	window.location = "https://" + window.location.toString().split("//")[1];
+	window.location = "https://" + window.location.toString().split("http://")[1];
 }
 
 $(function() {
