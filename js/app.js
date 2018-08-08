@@ -137,6 +137,7 @@ $(function() {
 		"StrikerAcolyte": {
 			"name": "Angst",
 			disc: false,
+			arrival: 0,
 			"mods": [
 				"Body Count (51.52%)",
 				"Repeater Clip (22.22%)",
@@ -147,6 +148,7 @@ $(function() {
 		"HeavyAcolyte": {
 			"name": "Malice",
 			disc: false,
+			arrival: 0,
 			"mods": [
 				"Focused Defense (51.52%)",
 				"Guided Ordnance (22.22%)",
@@ -157,6 +159,7 @@ $(function() {
 		"RogueAcolyte": {
 			"name": "Mania",
 			disc: false,
+			arrival: 1533837600 * 1000,
 			"mods": [
 				"Catalyzer Link (51.52%)",
 				"Embedded Catalyzer (22.22%)",
@@ -167,6 +170,7 @@ $(function() {
 		"AreaCasterAcolyte": {
 			"name": "Misery",
 			disc: false,
+			arrival: 1533754698763,
 			"mods": [
 				"Focused Defense (25.38%)",
 				"Body Count (8.57%)",
@@ -193,6 +197,7 @@ $(function() {
 		"ControlAcolyte": {
 			"name": "Torment",
 			disc: false,
+			arrival: 1533924000 * 1000,
 			"mods": [
 				"Hydraulic Crosshairs (51.52%)",
 				"Blood Rush (22.22%)",
@@ -203,6 +208,7 @@ $(function() {
 		"DuellistAcolyte": {
 			"name": "Violence",
 			disc: false,
+			arrival: 1534010400 * 1000,
 			"mods": [
 				"Shrapnel Shot (51.52%)",
 				"Bladed Rounds (22.22%)",
@@ -220,12 +226,30 @@ $(function() {
 		"Violence"
 	];
 	
+	// Timers
+	for(var acolyte in acolytes) {
+		var json = acolytes[acolyte];
+		var name = json.name;
+		
+		if(new Date().getTime() < json.arrival) {			
+			var output = [];
+			output.push('<div id="' + name + '-timer-card" class="card grey lighten-4 horizontal hoverable">');
+
+			output.push('<div class="card-content flow-text">');
+			output.push("	" + name.toUpperCase() + ' arrives in: <span id="' + name + '-timer"></span>');
+			output.push('</div>');
+		
+			$("#timers").append(output.join(""));
+			
+			startTimer($("#" + name + "-timer"), json.arrival, $("#" + name + "-timer-card"));
+		}
+	}
+	
 	// Fetch data from URLs and start update loop	
 	getJSON(solNodeURL, function(nodeJSON) {
 		nodes = nodeJSON;
 
 		acolyteUpdate();
-		loopCountdownUpdate(30, acolyteUpdate);
 	});
 	
 	// Functions
@@ -254,7 +278,6 @@ $(function() {
 		
 		if(timesLeft == 0) {
 			callback();
-			loopCountdownUpdate(seconds, callback);
 			
 		} else {
 			setTimeout(function() { loopCountdownUpdate(seconds, callback, timesLeft-1); }, 1000);
@@ -411,6 +434,7 @@ $(function() {
 			render();
 			
 			$("#loader").hide();
+			loopCountdownUpdate(30, acolyteUpdate);
 			$("#counter").show();
 		});
 	}
@@ -438,5 +462,25 @@ $(function() {
 		}
 		
 		// Else no notifications
+	}
+	
+	function startTimer(targetDiv, epoch, removeOnEnd) {
+		setInterval(function() {
+			var distance = epoch - new Date().getTime();
+			
+			// Time calculations for days, hours, minutes and seconds
+			var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+			var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+			var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+			var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+			targetDiv.text(days + "d " + hours + "h " + minutes + "m " + seconds + "s");
+
+			// If the count down is finished, write some text
+			if (distance < 0) {
+				clearInterval(this);
+				removeOnEnd.remove();
+			}
+		}, 1000);
 	}
 });
