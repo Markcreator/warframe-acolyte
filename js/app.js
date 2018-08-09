@@ -230,6 +230,7 @@ $(function() {
 	for(var acolyte in acolytes) {
 		var json = acolytes[acolyte];
 		var name = json.name;
+		var mods = json.mods;
 		
 		if(new Date().getTime() < json.arrival) {			
 			var output = [];
@@ -237,6 +238,13 @@ $(function() {
 
 			output.push('<div class="card-content flow-text">');
 			output.push("	" + name.toUpperCase() + ' arrives in: <span id="' + name + '-timer"></span>');
+			output.push("			<a class='dropdown-button btn waves-effect waves-light grey darken-3 grey-text right' data-beloworigin='true' data-activates='dropdown-" + name + "'>Drops</a>");
+			output.push("			<ul id='dropdown-" + name + "' class='dropdown-content'>");
+			var x = 0;
+			for(var x = 0; x < mods.length; x++) {
+			output.push("				<li><a target='_blank' href='http://warframe.wikia.com/wiki/" + mods[x].split(" (")[0].replace(" ", "_") + "' class='grey lighten-4 grey-text text-darken-1'>" + mods[x] + "</a></li>");
+			}
+			output.push("			</ul");
 			output.push('</div>');
 		
 			$("#timers").append(output.join(""));

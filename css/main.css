@@ -39,6 +39,10 @@ body, .nav-wrapper, .card, a, img {
 	border-radius: 20px 40px;
 }
 
+#timers .card-content {
+	width: 100%;
+}
+
 .progress {
 	height: 1em;
 }
