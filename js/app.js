@@ -363,7 +363,7 @@ $(function() {
 			output.push("			<br/>");
 			output.push("			Location: " + location);
 			output.push("			<br/>");
-			output.push("			<a class='dropdown-button btn waves-effect waves-light grey darken-3 grey-text' data-beloworigin='true' data-activates='dropdown-" + name + "'>Drops</a>");
+			output.push("			<a class='dropdown-button btn waves-effect waves-light grey darken-3 grey-text right' data-beloworigin='true' data-activates='dropdown-" + name + "'>Drops</a>");
 			output.push("			<ul id='dropdown-" + name + "' class='dropdown-content'>");
 			var x = 0;
 			for(var x = 0; x < mods.length; x++) {
