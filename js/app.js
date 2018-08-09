@@ -159,7 +159,7 @@ $(function() {
 		"RogueAcolyte": {
 			"name": "Mania",
 			disc: false,
-			arrival: 1533837600 * 1000,
+			arrival: 1533924000 * 1000,
 			"mods": [
 				"Catalyzer Link (51.52%)",
 				"Embedded Catalyzer (22.22%)",
@@ -197,7 +197,7 @@ $(function() {
 		"ControlAcolyte": {
 			"name": "Torment",
 			disc: false,
-			arrival: 1533924000 * 1000,
+			arrival: 1533837600 * 1000,
 			"mods": [
 				"Hydraulic Crosshairs (51.52%)",
 				"Blood Rush (22.22%)",
