@@ -237,7 +237,7 @@ $(function() {
 			output.push('<div id="' + name + '-timer-card" class="card grey lighten-4 horizontal hoverable">');
 
 			output.push('<div class="card-content flow-text">');
-			output.push("	" + name.toUpperCase() + ' arrives in: <span id="' + name + '-timer"></span>');
+			output.push("	<b>" + name.toUpperCase() + '</b> arrives in: <span id="' + name + '-timer"></span>');
 			output.push("			<a class='dropdown-button btn waves-effect waves-light grey darken-3 grey-text right' data-beloworigin='true' data-activates='dropdown-" + name + "'>Drops</a>");
 			output.push("			<ul id='dropdown-" + name + "' class='dropdown-content'>");
 			var x = 0;
@@ -298,7 +298,7 @@ $(function() {
 		output.push('<div id="acolyte-' + name + '" class="card grey lighten-4 horizontal hoverable">');
 
 		output.push('<div class="card-content flow-text">');
-		output.push("	" + name.toUpperCase() + "	<a id='show-" + name + "' name='" + name + "' class='pointer'>(Show)</a>");
+		output.push("	<b>" + name.toUpperCase() + "</b>	<a id='show-" + name + "' name='" + name + "' class='pointer'>(Show)</a>");
 		output.push('</div>');
 		
 		return output.join("");
@@ -357,11 +357,11 @@ $(function() {
 			output.push('	</div>');
 			output.push('	<div class="card-stacked">');
 			output.push('		<div class="card-content flow-text">');
-			output.push("			" + name.toUpperCase() + "	<a id='hide-" + name + "' name='" + name + "' class='pointer'>(Hide)</a>	<a class='right' target='_blank' href='http://warframe.wikia.com/wiki/" + name + "'>Wiki page</a>");
+			output.push("			<b>" + name.toUpperCase() + "</b>	<a id='hide-" + name + "' name='" + name + "' class='pointer'>(Hide)</a>	<a class='right' target='_blank' href='http://warframe.wikia.com/wiki/" + name + "'>Wiki page</a>");
 			output.push('			<div class="progress grey darken-2"> <div class="determinate health" style="width: ' + (health * 100) + '%"></div> </div>');
-			output.push("			<span class='red-text'>Health: " + (health * 100).toFixed(2) + "%</span>");
+			output.push("			<span class='red-text'><b>Health:</b> " + (health * 100).toFixed(2) + "%</span>");
 			output.push("			<br/>");
-			output.push("			Location: " + location);
+			output.push("			<b>Location:</b> " + location);
 			output.push("			<br/>");
 			output.push("			<a class='dropdown-button btn waves-effect waves-light grey darken-3 grey-text right' data-beloworigin='true' data-activates='dropdown-" + name + "'>Drops</a>");
 			output.push("			<ul id='dropdown-" + name + "' class='dropdown-content'>");
