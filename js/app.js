@@ -159,7 +159,7 @@ $(function() {
 		"RogueAcolyte": {
 			"name": "Mania",
 			disc: false,
-			arrival: 1533924000 * 1000,
+			arrival: 1534010400 * 1000,
 			"mods": [
 				"Catalyzer Link (51.52%)",
 				"Embedded Catalyzer (22.22%)",
@@ -208,7 +208,7 @@ $(function() {
 		"DuellistAcolyte": {
 			"name": "Violence",
 			disc: false,
-			arrival: 1534010400 * 1000,
+			arrival: 1533924000 * 1000,
 			"mods": [
 				"Shrapnel Shot (51.52%)",
 				"Bladed Rounds (22.22%)",
