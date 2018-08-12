@@ -226,23 +226,23 @@ $(function() {
 		"Violence"
 	];
 	var regions = [
-		"0",
-		"1",
-		"2",
+		"Unknown (0)",
+		"Unknown (1)",
+		"Unknown (2)",
 		"Mars",
 		"Jupiter",
 		"Saturn",
-		"6",
-		"7",
+		"Unknown (6)",
+		"Unknown (7)",
 		"Pluto",
 		"Ceres",
-		"10",
+		"Eris",
 		"Sedna",
-		"12",
-		"13",
-		"14",
+		"Unknown (12)",
+		"Unknown (13)",
+		"Unknown (14)",
 		"Phobos",
-		"16"
+		"Unknown (16)"
 	];
 	
 	// Timers
