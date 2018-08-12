@@ -225,6 +225,25 @@ $(function() {
 		"Torment",
 		"Violence"
 	];
+	var regions = [
+		"0",
+		"1",
+		"2",
+		"Mars",
+		"Jupiter",
+		"Saturn",
+		"6",
+		"7",
+		"Pluto",
+		"Ceres",
+		"10",
+		"Sedna",
+		"12",
+		"13",
+		"14",
+		"Phobos",
+		"16"
+	];
 	
 	// Timers
 	for(var acolyte in acolytes) {
@@ -323,6 +342,13 @@ $(function() {
 				Discovered: Math.random() >= 0.5,
 				HealthPercent: 0.123,
 				LastDiscoveredLocation: "SolNode24"
+			},
+			{
+				Icon: "/StrikerAcolyte.png",
+				Discovered: false,
+				Region: 4,
+				HealthPercent: 0.123,
+				LastDiscoveredLocation: "SolNode24"
 			}];
 		}
 		for(var i = 0; i < acolyteList.length; i++) {
@@ -331,9 +357,10 @@ $(function() {
 			var acoName = aco.Icon.split("/")[aco.Icon.split("/").length-1].split(".png")[0];
 			var name = acolytes[acoName].name;
 			var disc = aco.Discovered;
+			var region = aco.Region;
 			var health = aco.HealthPercent;
 			var mods = acolytes[acoName].mods;
-			var location = disc ? escapeHtml(nodes[aco.LastDiscoveredLocation].value + " [" + nodes[aco.LastDiscoveredLocation].type + "]") : "Unknown";
+			var location = disc ? escapeHtml(nodes[aco.LastDiscoveredLocation].value + " [" + nodes[aco.LastDiscoveredLocation].type + "]") : (region ? "Signal detected on " + regions[region] : "Unknown");
 			
 			if(acolytes[acoName].disc != disc) {
 				acolytes[acoName].disc = disc;
