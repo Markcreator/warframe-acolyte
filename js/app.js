@@ -226,23 +226,23 @@ $(function() {
 		"Violence"
 	];
 	var regions = [
-		"Unknown (0)",
-		"Unknown (1)",
-		"Unknown (2)",
+		"",
+		"",
+		"",
 		"Mars",
 		"Jupiter",
 		"Saturn",
-		"Unknown (6)",
-		"Unknown (7)",
+		"",
+		"Neptune",
 		"Pluto",
 		"Ceres",
 		"Eris",
 		"Sedna",
-		"Unknown (12)",
-		"Unknown (13)",
-		"Unknown (14)",
+		"Europa",
+		"",
+		"",
 		"Phobos",
-		"Unknown (16)"
+		""
 	];
 	
 	// Timers
@@ -360,7 +360,7 @@ $(function() {
 			var region = aco.Region;
 			var health = aco.HealthPercent;
 			var mods = acolytes[acoName].mods;
-			var location = disc ? escapeHtml(nodes[aco.LastDiscoveredLocation].value + " [" + nodes[aco.LastDiscoveredLocation].type + "]") : (region ? "Signal detected on " + regions[region] : "Unknown");
+			var location = disc ? escapeHtml(nodes[aco.LastDiscoveredLocation].value + " [" + nodes[aco.LastDiscoveredLocation].type + "]") : ((region && regions[region] != "") ? "Signal detected on " + regions[region] : "Unknown");
 			
 			if(acolytes[acoName].disc != disc) {
 				acolytes[acoName].disc = disc;
