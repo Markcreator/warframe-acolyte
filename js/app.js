@@ -407,8 +407,8 @@ $(function() {
 		if(acolyteList.length == 0) {
 			var output = [];
 			output.push('<div class="card grey lighten-4 hoverable">');
-			output.push('	<div class="card-content flow-text red-text">');
-			output.push('		No Acolytes are around yet. Soon™');
+			output.push('	<div class="card-content flow-text green-text">');
+			output.push('		The Acolyte event has come to an end. Thank you to everyone for playing and using acolyte.draak.online!');
 			output.push('	</div>');
 			output.push('</div>');
 			
