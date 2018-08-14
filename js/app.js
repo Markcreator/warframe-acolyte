@@ -272,7 +272,7 @@ $(function() {
 		}
 	}
 	
-	// Fetch data from URLs and start update loop	
+	// Fetch data from URLs and start update loop
 	getJSON(solNodeURL, function(nodeJSON) {
 		nodes = nodeJSON;
 
