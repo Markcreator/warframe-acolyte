@@ -1,4 +1,12 @@
 var useTestData = false;
+var languages = {
+	"en": {
+		"flag": "🇺🇸" // https://apps.timwhitlock.info/emoji/tables/iso3166
+	},
+	"nl": {
+		"flag": "🇳🇱"
+	}
+}
 
 // HTTPS upgrade
 if(window.location.toString().startsWith("http://")) {
@@ -6,13 +14,20 @@ if(window.location.toString().startsWith("http://")) {
 }
 
 $(function() {
-
 	// Load tooltips
 	$('.tooltipped').tooltip();
 
+	// Register languages
+	languageOptions = [];
+	for(langOption in languages) {
+		langSettings = languages[langOption];
+		languageOptions.push("<li><a href='?lang=" + escapeHtml(langOption) + "' class='grey lighten-4 grey-text text-darken-1'>" + escapeHtml(langSettings.flag) + " " + escapeHtml(langOption.toUpperCase()) + "</a></li>");
+	}
+	$("#dropdown-language").append(languageOptions.join(""));
+
 	// Register service worker for PWA support
 	if("serviceWorker" in navigator) {
-		navigator.serviceWorker.register("js/service-worker.js").then(function(registration){
+		navigator.serviceWorker.register("js/service-worker.js").then(function(registration) {
 			window.serviceWorker = registration;
 		}).catch(function(error) {
 			console.warn("Service worker registration failed", error);
@@ -32,6 +47,19 @@ $(function() {
 	}
 	$("#" + platform).addClass("indigo-text");
 	
+	// Get which language
+	var language;
+	var dictionary = {};
+	try {
+		language = url.searchParams.get("lang");
+	} catch(err) {
+	}
+	if(language == null) {
+		language = "en";
+	}
+	
+	loadLanguage(language);
+
 	// URLs
 	var worldStateURLs = {
 		"pc": "http://content.warframe.com/dynamic/worldState.php",
@@ -273,7 +301,7 @@ $(function() {
 		}
 	}
 	
-	// Fetch data from URLs and start update loop
+	// Fetch planet data and start update loop
 	getJSON(solNodeURL, function(nodeJSON) {
 		nodes = nodeJSON;
 
@@ -288,6 +316,25 @@ $(function() {
 		});
 	}
 	
+	function loadLanguage(language) {
+		if(window.location.toString().startsWith("file://")) {
+			alert("Sorry, language loading is not available.");
+		} else {
+			$.getJSON("lang/" + language + ".json", function(data) {
+				dictionary = JSON.parse(data.contents);
+
+				$("[data-lang]").each(function() {
+					var key = $(this).data("lang");
+					$(this).text(getLangText(key));
+				});
+			});
+		}
+	}
+
+	function getLangText(key) {
+		return escapeHtml(dictionary[key] || dictionary["undefined"] || "N/A");
+	}
+
 	function escapeHtml(unsafe) {
 		return unsafe
 			 .replace(/&/g, "&amp;")
@@ -302,7 +349,7 @@ $(function() {
 		if(typeof(timesLeft) == 'undefined') {
 			timesLeft = seconds;
 		}
-		$("#counter").text(timesLeft != 0 ? ('Updating in: ' + timesLeft + 's') : "");
+		$("#counter").text(timesLeft != 0 ? (getLangText("refreshin") + ' ' + timesLeft + ' ' + getLangText("seconds")) : "");
 		
 		if(timesLeft == 0) {
 			callback();
@@ -318,7 +365,7 @@ $(function() {
 		output.push('<div id="acolyte-' + name + '" class="card grey lighten-4 horizontal hoverable">');
 
 		output.push('<div class="card-content flow-text">');
-		output.push("	<b>" + name.toUpperCase() + "</b>	<a id='show-" + name + "' name='" + name + "' class='pointer'>(Show)</a>");
+		output.push("	<b>" + name.toUpperCase() + "</b>	<a id='show-" + name + "' name='" + name + "' class='pointer'>" + getLangText("show") + "</a>");
 		output.push('</div>');
 		
 		return output.join("");
@@ -352,6 +399,7 @@ $(function() {
 				LastDiscoveredLocation: "SolNode24"
 			}];
 		}
+
 		for(var i = 0; i < acolyteList.length; i++) {
 			var aco = acolyteList[i];
 			
@@ -361,7 +409,7 @@ $(function() {
 			var region = aco.Region;
 			var health = aco.HealthPercent;
 			var mods = acolytes[acoName].mods;
-			var location = disc ? escapeHtml(nodes[aco.LastDiscoveredLocation].value + " [" + nodes[aco.LastDiscoveredLocation].type + "]") : ((region && regions[region] != "") ? "Signal detected on " + regions[region] : "Unknown");
+			var location = disc ? escapeHtml(nodes[aco.LastDiscoveredLocation].value + " [" + nodes[aco.LastDiscoveredLocation].type + "]") : ((region && regions[region] != "") ? getLangText("signalon") + " " + regions[region] : getLangText("unknown"));
 			
 			if(acolytes[acoName].disc != disc) {
 				acolytes[acoName].disc = disc;
@@ -385,13 +433,13 @@ $(function() {
 			output.push('	</div>');
 			output.push('	<div class="card-stacked">');
 			output.push('		<div class="card-content flow-text">');
-			output.push("			<b>" + name.toUpperCase() + "</b>	<a id='hide-" + name + "' name='" + name + "' class='pointer'>(Hide)</a>	<a class='right' target='_blank' href='http://warframe.wikia.com/wiki/" + name + "'>Wiki page</a>");
+			output.push("			<b>" + name.toUpperCase() + "</b>	<a id='hide-" + name + "' name='" + name + "' class='pointer'>" + getLangText("hide") + "</a>	<a class='right' target='_blank' href='http://warframe.wikia.com/wiki/" + name + "'>" + getLangText("wiki") + "</a>");
 			output.push('			<div class="progress grey darken-2"> <div class="determinate health" style="width: ' + (health * 100) + '%"></div> </div>');
-			output.push("			<span class='red-text'><b>Health:</b> " + (health * 100).toFixed(2) + "%</span>");
+			output.push("			<span class='red-text'><b>" + getLangText("health") + "</b> " + (health * 100).toFixed(2) + "%</span>");
 			output.push("			<br/>");
-			output.push("			<b>Location:</b> " + location);
+			output.push("			<b>" + getLangText("location") + "</b> " + location);
 			output.push("			<br/>");
-			output.push("			<a class='dropdown-button btn waves-effect waves-light grey darken-3 grey-text right' data-beloworigin='true' data-activates='dropdown-" + name + "'>Drops</a>");
+			output.push("			<a class='dropdown-button btn waves-effect waves-light grey darken-3 grey-text right' data-beloworigin='true' data-activates='dropdown-" + name + "'>" + getLangText("drops") + "</a>");
 			output.push("			<ul id='dropdown-" + name + "' class='dropdown-content'>");
 			var x = 0;
 			for(var x = 0; x < mods.length; x++) {
@@ -409,7 +457,7 @@ $(function() {
 			var output = [];
 			output.push('<div class="card grey lighten-4 hoverable">');
 			output.push('	<div class="card-content flow-text green-text">');
-			output.push('		The Acolyte event has come to an end. Thank you to everyone for playing and using acolyte.draak.online!');
+			output.push('		' + getLangText("eventstarting"));
 			output.push('	</div>');
 			output.push('</div>');
 			
@@ -480,7 +528,7 @@ $(function() {
 		var title = "Acolyte Tracker";
 		var options = {
 			icon: 'img/' + acoName + '.png',
-			body: name.toUpperCase() + "'s location is now:\n" + location
+			body: name.toUpperCase() + getLangText("acolytelocationupdate") + "\n" + location
 		};
 		
 		if (!("Notification" in window)) {
@@ -510,7 +558,7 @@ $(function() {
 			var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
 			var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-			targetDiv.text(days + "d " + hours + "h " + minutes + "m " + seconds + "s");
+			targetDiv.text(days + " " + getLangText("days") + " " + hours + " " + getLangText("hours") + " " + minutes + " " + getLangText("minutes") + " " + seconds + " " + getLangText("seconds"));
 
 			// If the count down is finished, write some text
 			if (distance < 0) {

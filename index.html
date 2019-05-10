@@ -37,7 +37,7 @@
 							<a target='_blank' href="https://github.com/Markcreator/warframe-acolyte" class="grey-text">GitHub</a>
 						</li>
 						<li class="hide-on-small-only">
-							<a class="btn btn-large light-blue hoverable waves-effect donate" target="_blank" href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=2C3ZXGNTS8W8G"><b>Donate</b></a>
+							<a class="btn btn-large light-blue hoverable waves-effect donate" target="_blank" href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=2C3ZXGNTS8W8G"><b><span data-lang="donate"></span></b></a>
 						</li>
 					</ul>
 
@@ -45,6 +45,11 @@
 						<li><a id="night" class="amber tooltipped" data-position="bottom" data-delay="50" data-tooltip="Night Mode"><i id="nightIcon" class="material-icons">brightness_5</i></a></li>
 						<li><a id="notifications" class="red tooltipped" data-position="bottom" data-delay="50" data-tooltip="Notifications"><i class="material-icons">message</i></a></li>
 						<li><a id="sounds" class="red tooltipped" data-position="bottom" data-delay="50" data-tooltip="Notification Sounds"><i id="soundsIcon" class="material-icons">volume_off</i></a></li>
+						<li>
+							<a id="language" class="dropdown-button" data-beloworigin='true' data-activates='dropdown-language'><span class="flow-text" data-lang="flag">Language</span></a>
+							<ul id='dropdown-language' class='dropdown-content'>
+							</ul>
+						</li>
 					</ul>
 				</div>
 			</nav>
@@ -96,12 +101,11 @@
 						<div class="row">
 							<!--<div class="col l8 m6 s12">-->
 							<div class="col s12">
-								Tired of sitting in front of your PC, anxiously updating the dodgy Warframe navigation menu in an attempt to stay up to date with the Acolytes?
+								<span data-lang="intro1"></span>
 								<br/><br/>
-								Acolyte Tracker will automatically fetch the latest in Acolyte developments straight to your browser, on any device!
+								<span data-lang="intro2"></span>
 								<br/>
-								Get notified instantly with browser and sound notifications, enjoy our night mode for reduced eye strain, and experience the fastest updating tracker around, so that you can get back to just enjoying the event.
-								<br/><br/>
+								<span data-lang="intro3"></span>
 							</div>
 							
 							<!--<div class="col l4 m6 s12">
@@ -122,7 +126,7 @@
 			
 			<div class="card grey lighten-4 hoverable">
 				<div class="card-content flow-text">
-					<p id="counter"></p>
+					<p class="center-align" id="counter"></p>
 					<div id="loader" class="progress grey">
 						<div class="indeterminate black"></div>
 					</div>
@@ -138,22 +142,24 @@
 		<footer class="page-footer grey darken-3">
 			<div class="row">
 				<div class="col l6 grey darken-2">
-					<p class="white-text flow-text"><b>Made with ❤️ by Markcreator</b></p>
+					<p class="white-text flow-text"><span data-lang="madeby"></span></p>
 					<ul>
-						<li>Contents: 100% awesome, 0% ads. Because we believe in a no-BS experience.</li>
-						<li>Got some spare change? Help us fund the rescue of Space Mom (and support our creations), we greatly appreciate any amount!</li>
+						<li><span data-lang="whyfree"></span></li>
+						<li><span data-lang="whydonate"></span></li>
 						
-						<a class="btn btn-large light-blue hoverable waves-effect donate donate-spacing" target="_blank" href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=2C3ZXGNTS8W8G"><b>Donate</b></a>
+						<a class="btn btn-large light-blue hoverable waves-effect donate donate-spacing" target="_blank" href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=2C3ZXGNTS8W8G"><b><span data-lang="donate"></span></b></a>
 					</ul>
 				</div>
 				<div class="col l5 offset-l1 grey darken-3">
 					<br/>
-					<h5 class="white-text flow-text">Links</h5>
+					<h5 class="white-text flow-text"><span data-lang="links"></span></h5>
 					<ul>
-						<li><a class="blue-text text-lighten-3" target='_blank' href="https://github.com/Markcreator">GitHub</a></li>
 						<li><a class="blue-text text-lighten-3" target='_blank' href="http://draak.online">Website</a></li>
+						<li><a class="blue-text text-lighten-3" target='_blank' href="https://github.com/Markcreator">GitHub</a></li>
 						<li><a class="blue-text text-lighten-3" target='_blank' href="https://discord.gg/XjpGdAQ">Discord</a></li>
 					</ul>
+					<br>
+					<p class="white-text"><span data-lang="translationby"></span></p>
 				</div>
 			</div>
 		</footer>
