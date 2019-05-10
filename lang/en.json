@@ -26,7 +26,7 @@
     "health": "Health:",
     "location": "Location:",
     "drops": "Mods",
-    "eventover": "The Acolyte event has ended. Thank you to everyone for playing and using Acolyte.Draak.Online!",
+    "eventended": "The Acolyte event has ended. Thank you to everyone for playing and using Acolyte.Draak.Online!",
     "eventstarting": "The Acolyte event is starting soon. Thank you for choosing Acolyte.Draak.Online!",
     "acolytelocationupdate": "'s location is now:"
 }

@@ -23,10 +23,10 @@
     "signalon": "Signaal gedetecteerd op",
     "unknown": "Onbekend",
     "wiki": "Wiki pagina",
-    "health": "Health:",
+    "health": "Gezondheid:",
     "location": "Locatie:",
     "drops": "Mods",
-    "eventover": "Het Acolyte evenement is geëindigd. Bedankt iedereen voor het spelen en het gebruik maken van Acolyte.Draak.Online!",
+    "eventended": "Het Acolyte evenement is geëindigd. Bedankt iedereen voor het spelen en het gebruik maken van Acolyte.Draak.Online!",
     "eventstarting": "Het Acolyte evenement begint binnenkort. Bedankt voor het kiezen voor Acolyte.Draak.Online!",
     "acolytelocationupdate": "'s locatie is nu:"
 }
