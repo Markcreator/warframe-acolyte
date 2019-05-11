@@ -5,6 +5,9 @@ var languages = {
 	},
 	"nl": {
 		"flag": "🇳🇱"
+	},
+	"ko": {
+		"flag": "🇰🇷"
 	}
 }
 var worldStateURLs = {
