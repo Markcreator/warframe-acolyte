@@ -45,7 +45,7 @@ $(function() {
 	if(platform == null) {
 		platform = "pc";
 	}
-	$("#" + platform).addClass("indigo-text");
+	$("#" + platform).addClass("indigo-text text-darken-2");
 	
 	// Get which language
 	var language;
