@@ -321,8 +321,7 @@ $(function() {
 			alert("Sorry, language loading is not available.");
 		} else {
 			$.getJSON("lang/" + lang + ".json", function(data) {
-				console.log(data);
-				dictionary = JSON.parse(data.contents);
+				dictionary = data;
 
 				$("[data-lang]").each(function() {
 					var key = $(this).data("lang");
