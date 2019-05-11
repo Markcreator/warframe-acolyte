@@ -316,11 +316,12 @@ $(function() {
 		});
 	}
 	
-	function loadLanguage(language) {
+	function loadLanguage(lang) {
 		if(window.location.toString().startsWith("file://")) {
 			alert("Sorry, language loading is not available.");
 		} else {
-			$.getJSON("lang/" + language + ".json", function(data) {
+			$.getJSON("lang/" + lang + ".json", function(data) {
+				console.log(data);
 				dictionary = JSON.parse(data.contents);
 
 				$("[data-lang]").each(function() {
