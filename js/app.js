@@ -7,6 +7,13 @@ var languages = {
 		"flag": "🇳🇱"
 	}
 }
+var worldStateURLs = {
+	"pc": "http://content.warframe.com/dynamic/worldState.php",
+	"ps4": "http://content.ps4.warframe.com/dynamic/worldState.php",
+	"xbox": "http://content.xb1.warframe.com/dynamic/worldState.php",
+	"switch": "http://content.swi.warframe.com/dynamic/worldState.php"
+};
+var solNodeURL = "https://raw.githubusercontent.com/WFCD/warframe-worldstate-data/master/data/solNodes.json";
 
 // HTTPS upgrade
 if(window.location.toString().startsWith("http://")) {
@@ -42,10 +49,11 @@ $(function() {
 		platform = url.searchParams.get("platform");
 	} catch(err) {
 	}
-	if(platform == null) {
+	if(platform == null || !(platform in worldStateURLs)) {
 		platform = "pc";
 	}
 	$("#" + platform).addClass("indigo-text text-darken-2");
+	var worldStateURL = worldStateURLs[platform];
 	
 	// Get which language
 	var language;
@@ -54,21 +62,11 @@ $(function() {
 		language = url.searchParams.get("lang");
 	} catch(err) {
 	}
-	if(language == null) {
+	if(language == null || !(language in languages)) {
 		language = "en";
 	}
 	
 	loadLanguage(language);
-
-	// URLs
-	var worldStateURLs = {
-		"pc": "http://content.warframe.com/dynamic/worldState.php",
-		"ps4": "http://content.ps4.warframe.com/dynamic/worldState.php",
-		"xbox": "http://content.xb1.warframe.com/dynamic/worldState.php",
-		"switch": "http://content.swi.warframe.com/dynamic/worldState.php"
-	};
-	var worldStateURL = worldStateURLs[platform];
-	var solNodeURL = "https://raw.githubusercontent.com/WFCD/warframe-worldstate-data/master/data/solNodes.json";
 	
 	// Audio feedback
 	var audio = new Audio('sound/sound.mp3');
