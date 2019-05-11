@@ -21,7 +21,7 @@ $(function() {
 	languageOptions = [];
 	for(langOption in languages) {
 		langSettings = languages[langOption];
-		languageOptions.push("<li><a href='?lang=" + escapeHtml(langOption) + "' class='grey lighten-4 grey-text text-darken-1'>" + escapeHtml(langSettings.flag) + " " + escapeHtml(langOption.toUpperCase()) + "</a></li>");
+		languageOptions.push("<li><a data-param='lang' data-value='" + escapeHtml(langOption) + "' class='grey lighten-4 grey-text text-darken-1'>" + escapeHtml(langSettings.flag) + " " + escapeHtml(langOption.toUpperCase()) + "</a></li>");
 	}
 	$("#dropdown-language").append(languageOptions.join(""));
 
@@ -155,6 +155,16 @@ $(function() {
 	if(localStorage.notifications) {
 		$("#notifications").click();
 	}
+	
+	// Parameter appending
+	$("[data-param]").on("click", function(e) {
+		e.preventDefault();
+		var param = $(this).data("param");
+		var value = $(this).data("value");
+		
+		url.searchParams.set(param, value);
+		window.location = url;
+	});
 	
 	// Data
 	
