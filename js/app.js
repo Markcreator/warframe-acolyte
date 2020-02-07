@@ -297,7 +297,7 @@ $(function() {
 
 			output.push('<div class="card-content flow-text">');
 			output.push("	<b>" + name.toUpperCase() + '</b> is expected to arrive in: <span id="' + name + '-timer"></span>');
-			output.push("			<a class='dropdown-button btn waves-effect waves-light grey darken-3 grey-text right' data-beloworigin='true' data-activates='dropdown-" + name + "'>Drops</a>");
+			output.push("			<a class='dropdown-button btn waves-effect waves-light grey darken-3 grey-text right' data-beloworigin='true' data-activates='dropdown-" + name + "'>Mods</a>");
 			output.push("			<ul id='dropdown-" + name + "' class='dropdown-content'>");
 			var x = 0;
 			for(var x = 0; x < mods.length; x++) {
