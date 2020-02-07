@@ -322,7 +322,7 @@ $(function() {
 	// Functions
 	
 	function getJSON(url, callback) {
-		$.getJSON('https://whateverorigin.herokuapp.com/get?url=' + encodeURIComponent(url) + '&callback=?', function(data) {
+		$.getJSON('https://api.allorigins.win/get?url=' + encodeURIComponent(url), function(data) {
 			callback(JSON.parse(data.contents));
 		});
 	}
