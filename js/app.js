@@ -174,21 +174,32 @@ $(function() {
 	var currentAcolytes = {};
 	
 	var acolytes = {
-		"StrikerAcolyte": {
-			"name": "Angst",
+		"ControlAcolyte": {
+			"name": "Torment",
 			disc: false,
-			arrival: 0,
+			arrival: 1581103200*1000,
 			"mods": [
-				"Body Count (51.52%)",
-				"Repeater Clip (22.22%)",
-				"Spring-Loaded Chamber (22.22%)",
-				"Pressurized Magazine (4.04%)"
+				"Hydraulic Crosshairs (51.52%)",
+				"Blood Rush (22.22%)",
+				"Laser Sight (22.22%)",
+				"Argon Scope (4.04%)"
+			]
+		},
+		"DuellistAcolyte": {
+			"name": "Violence",
+			disc: false,
+			arrival: 1581189600*1000,
+			"mods": [
+				"Shrapnel Shot (51.52%)",
+				"Bladed Rounds (22.22%)",
+				"Sharpened Bullets (22.22%)",
+				"Maiming Strike (4.04%)"
 			]
 		},
 		"HeavyAcolyte": {
 			"name": "Malice",
 			disc: false,
-			arrival: 1548536400*100,
+			arrival: 1581276000*1000,
 			"mods": [
 				"Focused Defense (51.52%)",
 				"Guided Ordnance (22.22%)",
@@ -196,10 +207,21 @@ $(function() {
 				"Narrow Barrel (4.04%)"
 			]
 		},
+		"StrikerAcolyte": {
+			"name": "Angst",
+			disc: false,
+			arrival: 1581362400*1000,
+			"mods": [
+				"Body Count (51.52%)",
+				"Repeater Clip (22.22%)",
+				"Spring-Loaded Chamber (22.22%)",
+				"Pressurized Magazine (4.04%)"
+			]
+		},
 		"RogueAcolyte": {
 			"name": "Mania",
 			disc: false,
-			arrival: 1534010400*1000,
+			arrival: 1581448800*1000,
 			"mods": [
 				"Catalyzer Link (51.52%)",
 				"Embedded Catalyzer (22.22%)",
@@ -210,7 +232,7 @@ $(function() {
 		"AreaCasterAcolyte": {
 			"name": "Misery",
 			disc: false,
-			arrival: 1533754698*1000,
+			arrival: 1533754698*100,
 			"mods": [
 				"Focused Defense (25.38%)",
 				"Body Count (8.57%)",
@@ -232,28 +254,6 @@ $(function() {
 				"Nano-Applicator (0.67%)",
 				"Narrow Barrel (0.67%)",
 				"Pressurized Magazine (0.67%)"
-			]
-		},
-		"ControlAcolyte": {
-			"name": "Torment",
-			disc: false,
-			arrival: 1533837600*1000,
-			"mods": [
-				"Hydraulic Crosshairs (51.52%)",
-				"Blood Rush (22.22%)",
-				"Laser Sight (22.22%)",
-				"Argon Scope (4.04%)"
-			]
-		},
-		"DuellistAcolyte": {
-			"name": "Violence",
-			disc: false,
-			arrival: 1533924000*1000,
-			"mods": [
-				"Shrapnel Shot (51.52%)",
-				"Bladed Rounds (22.22%)",
-				"Sharpened Bullets (22.22%)",
-				"Maiming Strike (4.04%)"
 			]
 		}
 	};
@@ -296,7 +296,7 @@ $(function() {
 			output.push('<div id="' + name + '-timer-card" class="card grey lighten-4 horizontal hoverable">');
 
 			output.push('<div class="card-content flow-text">');
-			output.push("	<b>" + name.toUpperCase() + '</b> arrives in: <span id="' + name + '-timer"></span>');
+			output.push("	<b>" + name.toUpperCase() + '</b> is expected to arrive in: <span id="' + name + '-timer"></span>');
 			output.push("			<a class='dropdown-button btn waves-effect waves-light grey darken-3 grey-text right' data-beloworigin='true' data-activates='dropdown-" + name + "'>Drops</a>");
 			output.push("			<ul id='dropdown-" + name + "' class='dropdown-content'>");
 			var x = 0;
