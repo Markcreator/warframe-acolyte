@@ -569,7 +569,7 @@ $(function() {
 			var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
 			var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-			targetDiv.text(days + " " + getLangText("days") + " " + hours + " " + getLangText("hours") + " " + minutes + " " + getLangText("minutes") + " " + seconds + " " + getLangText("seconds"));
+			targetDiv.text(days + " " + getLangText("days") + " " + hours + " " + getLangText("hours") + " " + minutes + " " + getLangText("minutes"));
 
 			// If the count down is finished, write some text
 			if (distance < 0) {
