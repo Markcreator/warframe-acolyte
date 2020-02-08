@@ -199,7 +199,7 @@ $(function() {
 		"HeavyAcolyte": {
 			"name": "Malice",
 			disc: false,
-			arrival: 1581276000*1000,
+			arrival: 1581275880*1000,
 			"mods": [
 				"Focused Defense (51.52%)",
 				"Guided Ordnance (22.22%)",
@@ -210,7 +210,7 @@ $(function() {
 		"StrikerAcolyte": {
 			"name": "Angst",
 			disc: false,
-			arrival: 1581362400*1000,
+			arrival: 1581362280*1000,
 			"mods": [
 				"Body Count (51.52%)",
 				"Repeater Clip (22.22%)",
@@ -221,7 +221,7 @@ $(function() {
 		"RogueAcolyte": {
 			"name": "Mania",
 			disc: false,
-			arrival: 1581448800*1000,
+			arrival: 1581448680*1000,
 			"mods": [
 				"Catalyzer Link (51.52%)",
 				"Embedded Catalyzer (22.22%)",
