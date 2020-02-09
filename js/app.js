@@ -196,26 +196,26 @@ $(function() {
 				"Maiming Strike (4.04%)"
 			]
 		},
-		"HeavyAcolyte": {
-			"name": "Malice",
-			disc: false,
-			arrival: 1581275880*1000,
-			"mods": [
-				"Focused Defense (51.52%)",
-				"Guided Ordnance (22.22%)",
-				"Targeting Subsystem (22.22%)",
-				"Narrow Barrel (4.04%)"
-			]
-		},
 		"StrikerAcolyte": {
 			"name": "Angst",
 			disc: false,
-			arrival: 1581362280*1000,
+			arrival: 1581275880*1000,
 			"mods": [
 				"Body Count (51.52%)",
 				"Repeater Clip (22.22%)",
 				"Spring-Loaded Chamber (22.22%)",
 				"Pressurized Magazine (4.04%)"
+			]
+		},
+		"HeavyAcolyte": {
+			"name": "Malice",
+			disc: false,
+			arrival: 1581362280*1000,
+			"mods": [
+				"Focused Defense (51.52%)",
+				"Guided Ordnance (22.22%)",
+				"Targeting Subsystem (22.22%)",
+				"Narrow Barrel (4.04%)"
 			]
 		},
 		"RogueAcolyte": {
