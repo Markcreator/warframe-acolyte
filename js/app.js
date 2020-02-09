@@ -258,12 +258,12 @@ $(function() {
 		}
 	};
 	var acolyteOrder = [
+		"Torment",
+		"Violence",
 		"Angst",
 		"Malice",
 		"Mania",
 		"Misery",
-		"Torment",
-		"Violence"
 	];
 	var regions = [
 		"",
