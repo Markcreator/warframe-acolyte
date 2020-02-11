@@ -346,9 +346,12 @@ $(function() {
 	}
 
 	function getLangText(key) {
-		return escapeHtml(dictionary[key] || dictionary["undefined"] || "N/A");
+		return escapeHtml(getUnsafeLangText(key));
 	}
-
+	function getUnsafeLangText(key) {
+		return dictionary[key] || dictionary["undefined"] || "N/A";
+	}
+	
 	function escapeHtml(unsafe) {
 		return unsafe
 			 .replace(/&/g, "&amp;")
@@ -542,7 +545,7 @@ $(function() {
 		var title = "Acolyte Tracker";
 		var options = {
 			icon: 'img/' + acoName + '.png',
-			body: name.toUpperCase() + getLangText("acolytelocationupdate") + "\n" + location
+			body: name.toUpperCase() + getUnsafeLangText("acolytelocationupdate") + "\n" + location
 		};
 		
 		if (!("Notification" in window)) {
