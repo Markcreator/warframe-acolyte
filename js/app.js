@@ -474,7 +474,7 @@ $(function() {
 			var output = [];
 			output.push('<div class="card grey lighten-4 hoverable">');
 			output.push('	<div class="card-content flow-text green-text">');
-			output.push('		' + getLangText("eventstarting"));
+			output.push('		' + getLangText("eventended"));
 			output.push('	</div>');
 			output.push('</div>');
 			
