@@ -14,10 +14,10 @@ var languages = {
 	}
 }
 var worldStateURLs = {
-	"pc": "http://content.warframe.com/dynamic/worldState.php",
-	"ps4": "http://content.ps4.warframe.com/dynamic/worldState.php",
-	"xbox": "http://content.xb1.warframe.com/dynamic/worldState.php",
-	"switch": "http://content.swi.warframe.com/dynamic/worldState.php"
+	"pc": "https://content.warframe.com/dynamic/worldState.php",
+	"ps4": "https://content.ps4.warframe.com/dynamic/worldState.php",
+	"xbox": "https://content.xb1.warframe.com/dynamic/worldState.php",
+	"switch": "https://content.swi.warframe.com/dynamic/worldState.php"
 };
 var solNodeURL = "https://raw.githubusercontent.com/WFCD/warframe-worldstate-data/master/data/solNodes.json";
 
@@ -325,7 +325,7 @@ $(function() {
 	// Functions
 	
 	function getJSON(url, callback) {
-		$.getJSON('https://api.allorigins.win/get?url=' + encodeURIComponent(url), function(data) {
+		$.getJSON(url, function(data) {
 			callback(JSON.parse(data.contents));
 		});
 	}
