@@ -326,7 +326,7 @@ $(function() {
 	
 	function getJSON(url, callback) {
 		$.getJSON(url, function(data) {
-			callback(data);
+			callback(JSON.parse(data.contents));
 		});
 	}
 	
@@ -528,7 +528,7 @@ $(function() {
 	function acolyteUpdate() {
 		$("#loader").show();
 		$("#counter").hide();
-				
+		
 		getJSON(worldStateURL, function(worldStateJSON) {
 			worldState = worldStateJSON;
 
